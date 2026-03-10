@@ -1,0 +1,4 @@
+pnpm run format:check || {
+  echo 'Prettier check failed. Run "pnpm run format" to fix formatting issues.'
+  exit 1
+}

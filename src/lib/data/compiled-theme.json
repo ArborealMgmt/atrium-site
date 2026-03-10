@@ -1,0 +1,41 @@
+{
+  "primaryColor": "#2563eb",
+  "accentColor": "#3b82f6",
+  "backgroundColor": "#ffffff",
+  "textColor": "#1f2937",
+  "fontFamily": "Inter, system-ui, sans-serif",
+  "baseTheme": {
+    "tokensJson": {
+      "--border-radius": "8px",
+      "--spacing-unit": "1rem",
+      "--shadow-sm": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+      "--shadow-md": "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+      "--shadow-lg": "0 10px 15px -3px rgba(0, 0, 0, 0.1)"
+    },
+    "id": 1,
+    "trackableUuid": null,
+    "name": "Default",
+    "description": "Clean, neutral theme suitable for any property type",
+    "baseTheme": "default",
+    "primaryColor": "#2563eb",
+    "accentColor": "#3b82f6",
+    "backgroundColor": "#ffffff",
+    "textColor": "#1f2937",
+    "fontFamily": "Inter, system-ui, sans-serif",
+    "createdAt": "2025-11-23T07:25:51.062Z",
+    "updatedAt": "2025-11-29T11:53:48.538Z"
+  },
+  "overrides": null,
+  "compiledTokens": {
+    "--primary-color": "#2563eb",
+    "--accent-color": "#3b82f6",
+    "--background-color": "#ffffff",
+    "--text-color": "#1f2937",
+    "--font-family": "Inter, system-ui, sans-serif",
+    "--border-radius": "8px",
+    "--spacing-unit": "1rem",
+    "--shadow-sm": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+    "--shadow-md": "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+    "--shadow-lg": "0 10px 15px -3px rgba(0, 0, 0, 0.1)"
+  }
+}

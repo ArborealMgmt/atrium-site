@@ -1,0 +1,35 @@
+# dependencies
+node_modules
+.pnpm-store
+
+# build
+.build
+.svelte-kit
+build
+.vercel
+.output
+!.github/actions/build/
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# env
+.env
+.env.*
+*.local
+microsite-config.json
+
+# editor
+.DS_Store
+*.swp
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# misc
+coverage
+.devcontainer/

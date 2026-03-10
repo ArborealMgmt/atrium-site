@@ -1,0 +1,87 @@
+name: Svelte 5 Lint
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'eslint.config.js'
+      - '.prettierrc'
+      - '.github/workflows/lint.yml'
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'eslint.config.js'
+      - '.prettierrc'
+      - '.github/workflows/lint.yml'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.9.0'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.3.0
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check formatting
+        run: pnpm run format:check
+        continue-on-error: false
+
+      - name: Run ESLint
+        run: pnpm run lint
+        continue-on-error: false
+
+      - name: Check for Svelte 5 syntax compliance
+        run: |
+          # Check for legacy export let syntax (should use $props())
+          if grep -r "export let" src --include="*.svelte" | grep -v "// legacy" | grep -v "eslint-disable"; then
+            echo "❌ Found legacy 'export let' syntax. Use \$props() instead for Svelte 5."
+            echo "Example: let { propName } = \$props();"
+            exit 1
+          fi
+
+          # Check for legacy reactive statements (should use $derived())
+          if grep -r "^\s*\$:" src --include="*.svelte" | grep -v "// legacy" | grep -v "eslint-disable"; then
+            echo "❌ Found legacy reactive statements. Use \$derived() for Svelte 5."
+            echo "Example: let doubled = \$derived(count * 2);"
+            exit 1
+          fi
+
+          echo "✅ Svelte 5 syntax check passed!"
+
+      - name: Test Build
+        uses: ./.github/actions/build
+        with:
+          public_axiom_token: ${{ secrets.PUBLIC_AXIOM_TOKEN }}
+          public_axiom_dataset: ${{ secrets.PUBLIC_AXIOM_DATASET }}
+        continue-on-error: false

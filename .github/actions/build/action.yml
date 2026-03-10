@@ -1,0 +1,42 @@
+name: Run Nursery App Build
+description: Shared build step used by lint and deploy workflows.
+inputs:
+  public_axiom_token:
+    description: PUBLIC_AXIOM_TOKEN environment variable
+    required: false
+  public_axiom_dataset:
+    description: PUBLIC_AXIOM_DATASET environment variable
+    required: false
+  public_cloudinary_cloud_name:
+    description: PUBLIC_CLOUDINARY_CLOUD_NAME environment variable
+    required: false
+  public_mapbox_access_token:
+    description: PUBLIC_MAPBOX_ACCESS_TOKEN environment variable
+    required: false
+  public_plausible_project_id:
+    description: PUBLIC_PLAUSIBLE_PROJECT_ID environment variable
+    required: false
+  public_clarity_project_id:
+    description: PUBLIC_CLARITY_PROJECT_ID environment variable
+    required: false
+  public_google_ads_id:
+    description: PUBLIC_GOOGLE_ADS_ID environment variable
+    required: false
+  public_meta_pixel_id:
+    description: PUBLIC_META_PIXEL_ID environment variable
+    required: false
+runs:
+  using: composite
+  steps:
+    - name: pnpm build
+      run: pnpm run build
+      shell: bash
+      env:
+        PUBLIC_AXIOM_TOKEN: ${{ inputs.public_axiom_token }}
+        PUBLIC_AXIOM_DATASET: ${{ inputs.public_axiom_dataset }}
+        PUBLIC_CLOUDINARY_CLOUD_NAME: ${{ inputs.public_cloudinary_cloud_name }}
+        PUBLIC_MAPBOX_ACCESS_TOKEN: ${{ inputs.public_mapbox_access_token }}
+        PUBLIC_PLAUSIBLE_PROJECT_ID: ${{ inputs.public_plausible_project_id }}
+        PUBLIC_CLARITY_PROJECT_ID: ${{ inputs.public_clarity_project_id }}
+        PUBLIC_GOOGLE_ADS_ID: ${{ inputs.public_google_ads_id }}
+        PUBLIC_META_PIXEL_ID: ${{ inputs.public_meta_pixel_id }}

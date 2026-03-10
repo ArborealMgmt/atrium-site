@@ -1,0 +1,206 @@
+name: Deploy to Azure Static Web Apps
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.9.0'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.3.0
+
+      - name: Enable Node.js corepack
+        run: corepack enable
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify environment variables
+        env:
+          PUBLIC_AXIOM_TOKEN: ${{ secrets.PUBLIC_AXIOM_TOKEN }}
+          PUBLIC_AXIOM_DATASET: ${{ secrets.PUBLIC_AXIOM_DATASET }}
+          PUBLIC_CLOUDINARY_CLOUD_NAME: ${{ secrets.PUBLIC_CLOUDINARY_CLOUD_NAME }}
+          PUBLIC_MAPBOX_ACCESS_TOKEN: ${{ secrets.PUBLIC_MAPBOX_ACCESS_TOKEN }}
+          PUBLIC_PLAUSIBLE_PROJECT_ID: ${{ secrets.PUBLIC_PLAUSIBLE_PROJECT_ID }}
+          PUBLIC_CLARITY_PROJECT_ID: ${{ secrets.PUBLIC_CLARITY_PROJECT_ID }}
+          PUBLIC_GOOGLE_ADS_ID: ${{ secrets.PUBLIC_GOOGLE_ADS_ID }}
+          PUBLIC_META_PIXEL_ID: ${{ secrets.PUBLIC_META_PIXEL_ID }}
+        run: |
+          echo "=== Environment Variable Verification ==="
+          echo ""
+          echo "Core Services:"
+          echo "PUBLIC_AXIOM_TOKEN exists: $([[ -n "$PUBLIC_AXIOM_TOKEN" ]] && echo "✅ YES" || echo "❌ NO")"
+          echo "PUBLIC_AXIOM_TOKEN length: ${#PUBLIC_AXIOM_TOKEN}"
+          echo "PUBLIC_AXIOM_DATASET: $PUBLIC_AXIOM_DATASET"
+          echo "PUBLIC_CLOUDINARY_CLOUD_NAME exists: $([[ -n "$PUBLIC_CLOUDINARY_CLOUD_NAME" ]] && echo "✅ YES" || echo "❌ NO")"
+          echo "PUBLIC_CLOUDINARY_CLOUD_NAME: $PUBLIC_CLOUDINARY_CLOUD_NAME"
+          echo "PUBLIC_MAPBOX_ACCESS_TOKEN exists: $([[ -n "$PUBLIC_MAPBOX_ACCESS_TOKEN" ]] && echo "✅ YES" || echo "❌ NO")"
+          echo "PUBLIC_MAPBOX_ACCESS_TOKEN length: ${#PUBLIC_MAPBOX_ACCESS_TOKEN}"
+          echo ""
+          echo "=== Marketing Trackers ==="
+          MISSING_TRACKERS=()
+          if [[ -z "$PUBLIC_PLAUSIBLE_PROJECT_ID" ]]; then
+            echo "❌ PUBLIC_PLAUSIBLE_PROJECT_ID: NOT SET"
+            MISSING_TRACKERS+=("PUBLIC_PLAUSIBLE_PROJECT_ID")
+          else
+            echo "✅ PUBLIC_PLAUSIBLE_PROJECT_ID: Set (length: ${#PUBLIC_PLAUSIBLE_PROJECT_ID})"
+          fi
+          if [[ -z "$PUBLIC_CLARITY_PROJECT_ID" ]]; then
+            echo "❌ PUBLIC_CLARITY_PROJECT_ID: NOT SET"
+            MISSING_TRACKERS+=("PUBLIC_CLARITY_PROJECT_ID")
+          else
+            echo "✅ PUBLIC_CLARITY_PROJECT_ID: Set (length: ${#PUBLIC_CLARITY_PROJECT_ID})"
+          fi
+          if [[ -z "$PUBLIC_GOOGLE_ADS_ID" ]]; then
+            echo "❌ PUBLIC_GOOGLE_ADS_ID: NOT SET"
+            MISSING_TRACKERS+=("PUBLIC_GOOGLE_ADS_ID")
+          else
+            echo "✅ PUBLIC_GOOGLE_ADS_ID: Set (length: ${#PUBLIC_GOOGLE_ADS_ID})"
+          fi
+          if [[ -z "$PUBLIC_META_PIXEL_ID" ]]; then
+            echo "❌ PUBLIC_META_PIXEL_ID: NOT SET"
+            MISSING_TRACKERS+=("PUBLIC_META_PIXEL_ID")
+          else
+            echo "✅ PUBLIC_META_PIXEL_ID: Set (length: ${#PUBLIC_META_PIXEL_ID})"
+          fi
+          echo ""
+          if [[ ${#MISSING_TRACKERS[@]} -gt 0 ]]; then
+            echo "⚠️  WARNING: ${#MISSING_TRACKERS[@]} marketing tracker secret(s) are missing!"
+            echo ""
+            echo "Missing secrets: ${MISSING_TRACKERS[*]}"
+            echo ""
+            echo "To fix:"
+            echo "1. Go to GitHub → Settings → Secrets and variables → Actions"
+            echo "2. Add the missing secrets listed above"
+            echo "3. Redeploy the application"
+            echo ""
+            echo "⚠️  Build will continue, but marketing trackers will NOT work in production!"
+            echo "   See: doc/marketing/PRODUCTION_SETUP.md for detailed instructions"
+            echo ""
+          else
+            echo "✅ All marketing tracker secrets are configured!"
+          fi
+
+      - name: Build project
+        uses: ./.github/actions/build
+        with:
+          public_axiom_token: ${{ secrets.PUBLIC_AXIOM_TOKEN }}
+          public_axiom_dataset: ${{ secrets.PUBLIC_AXIOM_DATASET }}
+          public_cloudinary_cloud_name: ${{ secrets.PUBLIC_CLOUDINARY_CLOUD_NAME }}
+          public_mapbox_access_token: ${{ secrets.PUBLIC_MAPBOX_ACCESS_TOKEN }}
+          public_plausible_project_id: ${{ secrets.PUBLIC_PLAUSIBLE_PROJECT_ID }}
+          public_clarity_project_id: ${{ secrets.PUBLIC_CLARITY_PROJECT_ID }}
+          public_google_ads_id: ${{ secrets.PUBLIC_GOOGLE_ADS_ID }}
+          public_meta_pixel_id: ${{ secrets.PUBLIC_META_PIXEL_ID }}
+
+      - name: Prepare SWA artifact (copy config into app root)
+        run: |
+          echo "== Build tree =="
+          ls -la build || true
+          ls -la build/static || true
+          ls -la build/server || true
+
+          # Copy SWA config so it's in the app artifact root
+          if [ -f build/staticwebapp.config.json ]; then
+            cp build/staticwebapp.config.json build/static/staticwebapp.config.json
+          fi
+
+          echo "== Verify required files in app artifact =="
+          test -f build/static/index.html || (echo "ERROR: build/static/index.html missing" && exit 1)
+          test -f build/static/robots.txt || echo "WARN: robots.txt missing (add static/robots.txt in repo if needed)"
+          test -f build/static/staticwebapp.config.json || (echo "ERROR: staticwebapp.config.json not found in app artifact (build/static)" && exit 1)
+          test -d build/server/sk_render || (echo "ERROR: SSR function not found (build/server/sk_render)" && exit 1)
+
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        env:
+          PUBLIC_AXIOM_TOKEN: ${{ secrets.PUBLIC_AXIOM_TOKEN }}
+          PUBLIC_AXIOM_DATASET: ${{ secrets.PUBLIC_AXIOM_DATASET }}
+          PUBLIC_CLOUDINARY_CLOUD_NAME: ${{ secrets.PUBLIC_CLOUDINARY_CLOUD_NAME }}
+          PUBLIC_MAPBOX_ACCESS_TOKEN: ${{ secrets.PUBLIC_MAPBOX_ACCESS_TOKEN }}
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: upload
+          app_location: build/static # app artifact containing index.html + config
+          api_location: build/server # SSR Functions output
+          skip_app_build: true
+
+      - name: Notify Teams on Success
+        if: success()
+        run: |
+          curl -H "Content-Type: application/json" -d '{
+            "@type": "MessageCard",
+            "@context": "https://schema.org/extensions",
+            "summary": "Nursery App Deployment Successful",
+            "themeColor": "28A745",
+            "title": "✅ Nursery App Deployed Successfully",
+            "sections": [
+              {
+                "activityTitle": "Deployment Status: SUCCESS",
+                "activitySubtitle": "Deployed to Azure Static Web Apps",
+                "facts": [
+                  {"name": "Branch", "value": "${{ github.ref_name }}"},
+                  {"name": "Commit", "value": "${{ github.sha }}"},
+                  {"name": "Author", "value": "${{ github.actor }}"},
+                  {"name": "Message", "value": "${{ github.event.head_commit.message }}"}
+                ]
+              }
+            ],
+            "potentialAction": [
+              {"@type": "OpenUri","name": "View Workflow","targets":[{"os":"default","uri":"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"}]},
+              {"@type": "OpenUri","name": "View Commit","targets":[{"os":"default","uri":"${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"}]}
+            ]
+          }' ${{ secrets.TEAMS_WEBHOOK_URL }}
+
+      - name: Notify Teams on Failure
+        if: failure()
+        run: |
+          curl -H "Content-Type: application/json" -d '{
+            "@type": "MessageCard",
+            "@context": "https://schema.org/extensions",
+            "summary": "Nursery App Deployment Failed",
+            "themeColor": "DC3545",
+            "title": "🚨 Nursery App Deployment Failed",
+            "sections": [
+              {
+                "activityTitle": "Deployment Status: FAILED",
+                "activitySubtitle": "Check logs",
+                "facts": [
+                  {"name": "Branch", "value": "${{ github.ref_name }}"},
+                  {"name": "Commit", "value": "${{ github.sha }}"},
+                  {"name": "Error", "value": "See workflow logs for details"}
+                ]
+              }
+            ],
+            "potentialAction": [
+              {"@type":"OpenUri","name":"View Failed Workflow","targets":[{"os":"default","uri":"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"}]}
+            ]
+          }' ${{ secrets.TEAMS_WEBHOOK_URL }}

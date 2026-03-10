@@ -1,0 +1,17 @@
+{
+  "azure": {
+    "subscriptionId": "your-azure-subscription-id",
+    "resourceGroup": "nursery-app-rg",
+    "swaAppName": "nursery-app",
+    "frontDoorName": "your-front-door-profile-name",
+    "frontDoorEndpoint": "your-front-door-endpoint.azurefd.net",
+    "cnameRecord": "your-cname-record.azurefd.net"
+  },
+  "cloudflare": {
+    "apiToken": "your-cloudflare-api-token",
+    "zoneId": "your-cloudflare-zone-id",
+    "accountId": "your-cloudflare-account-id"
+  },
+  "devPort": "4370",
+  "prodPort": "4373"
+}
