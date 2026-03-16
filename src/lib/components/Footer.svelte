@@ -5,28 +5,19 @@
   import { ROUTES } from '$lib/config/routes.js';
 
   // Contact information - using specified values
-  const email = 'live@theterrapinapts.com';
-  const phone = '(425) 222-2911';
-  const address = '290 106th PL NE, Bellevue WA 98004';
+  const email = 'leasing@arboreal.management';
+  const phone = '(206) 222-7549';
+  const address = '7324 Martin Luther King Jr Way S, Seattle WA 98118';
 
   // Check if we're on the homepage
   const isHomepage = $derived($page.url.pathname === '/');
+
+  let logoError = $state(false);
 </script>
 
-<footer class="bg-white">
-  <!-- Top Border with Pattern (Homepage only) -->
-  {#if isHomepage}
-    <div class="h-px bg-primary"></div>
-    <div
-      class="h-10"
-      style:background-image="url('https://images.squarespace-cdn.com/content/v1/6511e44d800b016922e26808/9992bb25-1424-4f49-9072-a4de63fef76c/TurtleSkinPattern-ltGreen.png?format=2500w')"
-      style:background-size="contain"
-      style:background-repeat="repeat"
-    ></div>
-  {/if}
-
-  <!-- Main Content Area -->
-  <div class="bg-white py-12 md:py-16 lg:py-20">
+<footer>
+  <!-- Atrium contact bar: #D8E8EF bg, #151028 text -->
+  <div class="bg-atrium-section py-12 md:py-16 lg:py-20">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Logo Section -->
       <div class="flex justify-center mb-8 md:mb-12">
@@ -37,43 +28,48 @@
           aria-label="Go to home page"
           data-sveltekit-preload-data="hover"
         >
-          <img
-            src="https://images.squarespace-cdn.com/content/v1/6511e44d800b016922e26808/023f2fcc-81ec-4f99-97e8-6e0ea2c8e9f1/Color-onLight-TransBG-Large.png?format=1500w"
-            alt="Terrapin Apartments Logo"
-            class="h-24 md:h-32 lg:h-40 w-auto"
-          />
+          {#if logoError}
+            <span class="text-2xl md:text-3xl font-bold text-atrium-navy tracking-wide">Atrium Court</span>
+          {:else}
+            <img
+              src="/images/Atrium-Court-Logo.png?v=1"
+              alt="Atrium Court"
+              class="h-24 md:h-32 lg:h-40 w-auto object-contain"
+              onerror={() => (logoError = true)}
+            />
+          {/if}
         </a>
       </div>
 
       <!-- Decorative Lines -->
       <div class="relative flex items-center justify-center mb-8 md:mb-12">
-        <div class="absolute left-0 h-px bg-gray-300 w-[35%] md:w-[40%]"></div>
-        <div class="absolute right-0 h-px bg-gray-300 w-[35%] md:w-[40%]"></div>
+        <div class="absolute left-0 h-px bg-atrium-navy/30 w-[35%] md:w-[40%]"></div>
+        <div class="absolute right-0 h-px bg-atrium-navy/30 w-[35%] md:w-[40%]"></div>
       </div>
 
-      <!-- Contact Information -->
+      <!-- Contact Information - text #151028 per export -->
       <div
-        class="flex flex-col lg:flex-row justify-between items-center gap-6 md:gap-10 text-primary-main text-lg md:text-lg lg:text-xl"
+        class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-10 text-atrium-navy text-lg md:text-lg lg:text-xl items-center"
       >
         <a
           href={`mailto:${email}`}
-          class="underline hover:opacity-80 transition-opacity"
+          class="underline hover:opacity-80 transition-opacity text-center lg:text-left"
           onclick={() => track('ClickEmail', { location: 'footer' })}
         >
           {email}
         </a>
         <a
           href={`tel:${phone.replace(/[^\d]/g, '')}`}
-          class="hover:opacity-80 transition-opacity"
+          class="hover:opacity-80 transition-opacity text-center"
           onclick={() => track('ClickCall', { location: 'footer' })}
         >
           {phone}
         </a>
-        <span class="text-center md:text-left">{address}</span>
+        <span class="text-center lg:text-right">{address}</span>
       </div>
     </div>
   </div>
 
-  <!-- Bottom Border -->
-  <div class="h-16 bg-primary-main"></div>
+  <!-- Bottom bar: dark navy -->
+  <div class="h-16 bg-atrium-navy"></div>
 </footer>

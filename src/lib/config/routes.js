@@ -6,8 +6,10 @@
 export const ROUTES = {
   HOME: '/',
   AVAILABILITY: '/availability',
+  APARTMENTS: '/apartments',
   CONTACT_US: '/contact-us',
   NEIGHBORHOOD: '/neighborhood',
+  COMMUNITY: '/community',
   LISTINGS: '/listings',
   AFFORDABLE: '/affordable',
 };

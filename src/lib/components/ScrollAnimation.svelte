@@ -16,7 +16,8 @@
   } = $props();
 
   let element = $state();
-  let isVisible = $state(false);
+  // SSR: show content so HTML is not blank. Client: start visible so first paint is never blank.
+  let isVisible = $state(typeof browser !== 'undefined' ? !browser : true);
 
   if (browser) {
     $effect(() => {
@@ -42,8 +43,18 @@
       );
 
       observer.observe(element);
+      // Ensure above-the-fold content shows on first paint (avoids blank page)
+      const checkInView = () => {
+        const rect = element.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          isVisible = true;
+        }
+      };
+      checkInView();
+      const raf = requestAnimationFrame(checkInView);
 
       return () => {
+        cancelAnimationFrame(raf);
         observer.disconnect();
       };
     });
