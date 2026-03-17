@@ -1,5 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900&display=swap');
 
 @import 'tailwindcss';
 
@@ -7,21 +8,30 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Atrium Court theme (from WordPress/Divi export) */
 @theme {
-  --font-jost: 'Jost', sans-serif;
+  --font-open-sans: 'Open Sans', sans-serif;
   --font-poppins: 'Poppins', sans-serif;
-  --font-secondary: var(--font-family-secondary, var(--font-family, 'Rubik', sans-serif));
-  --color-primary-main: #0c311d;
-  --color-primary: #a5ceb6; /*Lighter green*/
-  --color-secondary-main: var(--text-color, #1f2937);
-  --color-secondary: var(--text-color, #1f2937);
+  --font-nunito: 'Nunito', sans-serif;
+  --font-secondary: var(--font-family-secondary, var(--font-family, 'Open Sans', sans-serif));
+  --color-primary-main: #151028;
+  --color-primary: #81a9bb;
+  --color-atrium-hero: #d8e8ef;
+  --color-atrium-cta: #0099e5;
+  --color-atrium-orange: #f2a73b;
+  --color-atrium-navy: #151028;
+  --color-atrium-section: #d8e8ef;
+  --color-atrium-coral: #f5a088;
+  --color-atrium-magenta: #b23b7c;
+  --color-secondary-main: #151028;
+  --color-secondary: #151028;
   --color-grey-main: #878787;
-  --color-nav-links: #3a3939;
+  --color-nav-links: #151028;
 }
 
-/* Common styles for fonts */
+/* Common styles for fonts - Atrium uses Open Sans for body */
 body {
-  @apply font-jost! text-secondary-main;
+  @apply font-open-sans! text-primary-main;
 }
 
 a {
@@ -142,9 +152,16 @@ a {
   --color-dark-grey: var(--dark-grey, #4d4d4d);
   --color-light-blue: var(--light-blue, #99cfff);
 
-  /* Custom primary colors from theme */
-  --color-primary-main: #0c311d;
-  --color-primary: #a5ceb6;
+  /* Atrium Court theme colors */
+  --color-primary-main: #151028;
+  --color-primary: #81a9bb;
+  --color-atrium-hero: #d8e8ef;
+  --color-atrium-cta: #0099e5;
+  --color-atrium-orange: #f2a73b;
+  --color-atrium-navy: #151028;
+  --color-atrium-section: #d8e8ef;
+  --color-atrium-coral: #f5a088;
+  --color-atrium-magenta: #b23b7c;
 }
 
 /* Screen reader only - for accessibility */
@@ -221,9 +238,12 @@ a {
   --custom-highlight: var(--accent-color, var(--primary-color, currentColor));
 }
 
-/* Standardized Button Classes */
+/* Standardized Button Classes: dark purple + gold (overridden below for full control) */
 .primary-btn {
-  @apply bg-primary-main text-white px-6 py-3 rounded-lg font-medium text-[15px] transition-all duration-200 hover:bg-primary-main/90 cursor-pointer;
+  @apply px-6 py-3 rounded-lg font-medium text-[15px] transition-all duration-200 cursor-pointer border;
+  background-color: #151028;
+  color: #f2a73b;
+  border-color: #f2a73b;
 }
 
 .primary-white-btn {
@@ -255,6 +275,23 @@ a {
   z-index: 5;
 }
 
+/* Hero/CTA full-bleed backgrounds: encourage sharper scaling (use with high-res images ≥1920px wide) */
+.hero-bg-image {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Home page hero: use high-res image to avoid pixelation. Replace home-hero.png with ≥1920px-wide version. */
+.home-hero-bg {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('/images/home-hero.png');
+}
+
 /* Header fade gradient effect */
 .header-fade-gradient {
   background: linear-gradient(
@@ -276,4 +313,263 @@ a {
   background-size: contain;
   background-position: center;
   background-repeat: repeat;
+}
+
+/* Atrium Court dark section with pattern (from WordPress export) */
+.atrium-pattern {
+  background-color: #151028;
+  background-image: url('/images/pattern2-scaled.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: repeat;
+}
+
+/* Atrium buttons: dark purple, gold text, thin gold outline (site-wide) */
+.btn-atrium-primary {
+  @apply font-nunito font-bold uppercase tracking-wide px-6 py-3 transition-all duration-200 border;
+  background-color: #151028;
+  color: #f2a73b;
+  border-color: #f2a73b;
+}
+.btn-atrium-primary:hover {
+  filter: brightness(1.15);
+}
+
+.btn-atrium-secondary {
+  @apply font-nunito font-bold uppercase tracking-wide px-6 py-3 transition-all duration-200 border;
+  background-color: #151028;
+  color: #f2a73b;
+  border-color: #f2a73b;
+}
+.btn-atrium-secondary:hover {
+  filter: brightness(1.15);
+}
+
+/* Bottom-of-page CTA: same dark purple + gold style */
+.cta-btn-search,
+.cta-btn-tour {
+  @apply font-nunito font-bold uppercase tracking-wide px-6 py-3 transition-all duration-200 inline-block text-xs md:text-sm border;
+  background-color: #151028;
+  color: #f2a73b;
+  border-color: #f2a73b;
+}
+.cta-btn-search:hover,
+.cta-btn-tour:hover {
+  filter: brightness(1.15);
+}
+
+/* Listing cards and other primary actions: dark purple + gold */
+.primary-btn {
+  background-color: #151028;
+  color: #f2a73b;
+  border: 1px solid #f2a73b;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  transition:
+    background-color 0.2s,
+    filter 0.2s;
+}
+.primary-btn:hover {
+  filter: brightness(1.15);
+}
+
+/* Maynard-style listing cards (expandable, image + details + gallery) */
+.listings-wrapper .section {
+  padding: 0;
+}
+.listings-wrapper .container {
+  max-width: 100%;
+  padding: 0;
+}
+.listings-wrapper .properties-list {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) {
+  .listings-wrapper .properties-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1024px) {
+  .listings-wrapper .properties-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.listings-wrapper .property-card {
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow:
+    0 1px 3px rgba(21, 16, 40, 0.1),
+    0 1px 2px rgba(21, 16, 40, 0.06);
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+}
+.listings-wrapper .property-card:hover,
+.listings-wrapper .property-card.expanded {
+  box-shadow:
+    0 10px 25px rgba(21, 16, 40, 0.12),
+    0 4px 6px rgba(21, 16, 40, 0.05);
+}
+.listings-wrapper .property-preview {
+  display: flex;
+  flex-direction: column;
+}
+.listings-wrapper .property-image-wrapper {
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  background: #e5e7eb;
+}
+.listings-wrapper .property-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.listings-wrapper .property-info {
+  padding: 1rem 1.25rem;
+}
+.listings-wrapper .property-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+.listings-wrapper .property-header-left {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+}
+.listings-wrapper .property-bed-bath,
+.listings-wrapper .property-sqft {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #151028;
+  opacity: 0.9;
+}
+.listings-wrapper .property-price {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #151028;
+  white-space: nowrap;
+}
+.listings-wrapper .property-description {
+  margin: 0 0 0.5rem;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: #151028;
+  opacity: 0.85;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.listings-wrapper .property-expand-indicator {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #81a9bb;
+}
+.listings-wrapper .property-details {
+  padding: 0 1.25rem 1.25rem;
+  border-top: 1px solid rgba(21, 16, 40, 0.08);
+}
+.listings-wrapper .property-photo-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+.listings-wrapper .property-gallery-image {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  background: #e5e7eb;
+}
+.listings-wrapper .property-gallery-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.listings-wrapper .property-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+.listings-wrapper .property-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+.listings-wrapper .property-info-full {
+  grid-column: 1 / -1;
+}
+.listings-wrapper .property-label {
+  font-weight: 600;
+  color: #81a9bb;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.6875rem;
+}
+.listings-wrapper .property-value {
+  color: #151028;
+}
+.listings-wrapper .property-apply-button {
+  display: inline-block;
+  margin-right: 0.5rem;
+  margin-top: 0.25rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background-color: #0099e5;
+  color: #fff;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  text-decoration: none;
+  transition: filter 0.2s ease;
+}
+.listings-wrapper .property-apply-button:hover {
+  filter: brightness(1.1);
+}
+.listings-wrapper .property-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.listings-wrapper .property-schedule-button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background-color: #f2a73b;
+  color: #151028;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  text-decoration: none;
+  transition: filter 0.2s ease;
+}
+.listings-wrapper .property-schedule-button:hover {
+  filter: brightness(1.1);
+}
+.listings-wrapper .loading,
+.listings-wrapper .error {
+  padding: 1rem;
+  text-align: center;
+  color: #151028;
+}
+.listings-wrapper .error {
+  color: #b23b7c;
 }

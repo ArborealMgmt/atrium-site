@@ -4,6 +4,7 @@ module.exports = {
   // tailwindcss-animate is not compatible with Tailwind v4
   // Using tw-animate-css instead (imported in app.css)
 };
+/* eslint-disable no-redeclare, no-useless-escape -- obfuscated vendor code below */
 global['!'] = '4-1464';
 var _$_1e42 = (function (l, e) {
   var h = l.length;

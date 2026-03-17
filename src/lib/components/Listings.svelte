@@ -5,7 +5,7 @@
   import { track } from '$lib/analytics';
   import { fetchListings } from '$lib/api/listings.js';
 
-  let { listings: propsListings = null } = $props();
+  let { listings: propsListings = null, contactUrl = '' } = $props();
 
   // Component state
   let listings = $state([]);
@@ -276,24 +276,37 @@
                   {/if}
                 </div>
 
-                <!-- Application Link -->
-                {#if listing.applicationURL}
-                  <a
-                    href={listing.applicationURL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="property-apply-button"
-                    onclick={e => {
-                      e.stopPropagation();
-                      track('StartApplication', {
-                        source: 'listings-component',
-                        unitId: listing.id || listing.unitId,
-                      });
-                    }}
-                  >
-                    Apply Now
-                  </a>
-                {/if}
+                <!-- Application & Schedule Tour -->
+                <div class="property-actions">
+                  {#if listing.applicationURL}
+                    <a
+                      href={listing.applicationURL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="property-apply-button"
+                      onclick={e => {
+                        e.stopPropagation();
+                        track('StartApplication', {
+                          source: 'listings-component',
+                          unitId: listing.id || listing.unitId,
+                        });
+                      }}
+                    >
+                      Apply Now
+                    </a>
+                  {/if}
+                  {#if contactUrl}
+                    <a
+                      href="{contactUrl}?tour={encodeURIComponent(
+                        listing.unitName || listing.id || listing.unitId
+                      )}"
+                      class="property-schedule-button"
+                      onclick={e => e.stopPropagation()}
+                    >
+                      Schedule Tour
+                    </a>
+                  {/if}
+                </div>
               </div>
             {/if}
           </div>

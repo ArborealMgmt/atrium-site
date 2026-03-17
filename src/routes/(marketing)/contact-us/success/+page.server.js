@@ -1,17 +1,10 @@
-import { loadMaynardPage } from '$lib/server/maynard-page-loader.js';
-
 /** @type {import('./$types').PageServerLoad} */
-export async function load({ locals, url }) {
-  // Load the standard Maynard page data for consistent branding
-  const pageData = await loadMaynardPage({ locals });
-
-  // Extract query parameters
+export async function load({ url }) {
   const leadId = url.searchParams.get('leadId');
-  const skipped = url.searchParams.get('skipped') === 'true';
-
+  const skippedStep2 = url.searchParams.get('skipped') === 'true';
   return {
-    ...pageData,
     leadId,
-    skippedStep2: skipped,
+    skippedStep2,
+    content: { global_property_name: 'Atrium Court' },
   };
 }

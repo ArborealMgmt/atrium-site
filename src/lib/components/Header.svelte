@@ -6,12 +6,17 @@
 
   import { ROUTES } from '$lib/config/routes.js';
 
-  // Navigation items
+  // Navigation items (Atrium: Availability, Apartments, Community, Affordable, Neighborhood, Tenant Portal, Contact)
   const menuItems = $derived([
-    { title: 'Gallery', path: '/gallery' },
+    { title: 'Availability', path: ROUTES.AVAILABILITY },
+    { title: 'Apartments', path: ROUTES.APARTMENTS },
+    { title: 'Community', path: ROUTES.COMMUNITY },
+    { title: 'Affordable', path: ROUTES.AFFORDABLE },
     { title: 'Neighborhood', path: ROUTES.NEIGHBORHOOD },
-    { title: 'Affordable Housing', path: ROUTES.AFFORDABLE },
-    { title: 'Floor Plans, Availability, & Apply', path: ROUTES.AVAILABILITY },
+    {
+      title: 'Tenant Portal',
+      path: 'https://account.appfolio.com/realms/foliospace/protocol/openid-connect/auth?activation_state&client_id=client-6429281f-0799-4592-b634-cc1e9e7ceeeb&portfolio_uuid=13478245-8105-11ef-a08b-0a354a94f5e2&redirect_uri=https%3A%2F%2Farboreal.appfolio.com%2Fconnect%2Fusers%2Foauth%2Fcallback&response_type=code&scope=openid+offline_access&session_timed_out=false&state',
+    },
     { title: 'Contact', path: ROUTES.CONTACT_US },
   ]);
 
@@ -103,22 +108,31 @@
 
   // Check if we're on the homepage to determine overlay style
   const isHomepage = $derived($page.url.pathname === '/');
+
+  // Logo image missing (e.g. Atrium-Court-Logo.png not in static/images) — show text fallback
+  let logoError = $state(false);
 </script>
 
+<!-- Top bar: dark purple (#151028) to match WordPress -->
 <div
-  class="{isHomepage ? 'absolute' : 'sticky'} top-0 left-0 right-0 z-50 {isHomepage
-    ? 'header-fade-gradient'
-    : 'bg-white shadow-sm'}"
+  class="{isHomepage ? 'absolute' : 'sticky'} top-0 left-0 right-0 z-50 bg-atrium-navy shadow-sm"
   bind:this={headerWrapper}
 >
   <header class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-20 md:h-24 lg:h-28">
       <a href="/" class="flex items-center">
-        <img
-          src="https://images.squarespace-cdn.com/content/v1/6511e44d800b016922e26808/023f2fcc-81ec-4f99-97e8-6e0ea2c8e9f1/Color-onLight-TransBG-Large.png?format=1500w"
-          alt="Terrapin Apartments Logo"
-          class="h-14 md:h-20 lg:h-24 w-auto"
-        />
+        {#if logoError}
+          <span class="text-xl md:text-2xl font-bold text-[color:#D8E8EF] tracking-wide"
+            >Atrium Court</span
+          >
+        {:else}
+          <img
+            src="/images/Atrium-Court-Logo.png?v=1"
+            alt="Atrium Court"
+            class="h-14 md:h-20 lg:h-24 w-auto object-contain"
+            onerror={() => (logoError = true)}
+          />
+        {/if}
       </a>
 
       <!-- Desktop Navigation -->
@@ -126,13 +140,11 @@
         {#each menuItems as item (item.path || item.title)}
           <a
             href={item.path}
-            class="font-normal text-base transition-colors pb-1 {isHomepage
-              ? isActive(item.path)
-                ? 'text-primary-main border-b border-primary-main'
-                : 'text-primary-main hover:text-primary-main/80'
-              : isActive(item.path)
-                ? 'text-primary-main border-b border-primary-main'
-                : 'text-secondary-main hover:text-primary-main'}"
+            class="font-normal text-base transition-colors pb-1 text-[color:#D8E8EF] hover:text-white {isActive(
+              item.path
+            )
+              ? 'border-b border-[color:#D8E8EF]'
+              : ''}"
             data-sveltekit-preload-data="hover"
           >
             {item.title}
@@ -144,9 +156,7 @@
       <div class="flex items-center gap-4">
         <!-- Hamburger Menu -->
         <button
-          class="xl:hidden p-2 {isHomepage
-            ? 'text-white hover:text-white/80'
-            : 'text-gray-700 hover:text-primary'} transition-colors cursor-pointer"
+          class="xl:hidden p-2 text-[color:#D8E8EF] hover:text-white transition-colors cursor-pointer"
           onclick={() => toggleMenu()}
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={menuOpen}
@@ -154,22 +164,16 @@
         >
           <div class="w-5 h-5 flex flex-col justify-center gap-1.5">
             <span
-              class="block h-0.5 w-full {isHomepage
-                ? 'bg-white'
-                : 'bg-primary-main'} transition-all duration-300"
+              class="block h-0.5 w-full bg-current transition-all duration-300"
               class:rotate-45={menuOpen}
               class:translate-y-2={menuOpen}
             ></span>
             <span
-              class="block h-0.5 w-full {isHomepage
-                ? 'bg-white'
-                : 'bg-primary-main'} transition-all duration-300"
+              class="block h-0.5 w-full bg-current transition-all duration-300"
               class:opacity-0={menuOpen}
             ></span>
             <span
-              class="block h-0.5 w-full {isHomepage
-                ? 'bg-white'
-                : 'bg-primary-main'} transition-all duration-300"
+              class="block h-0.5 w-full bg-current transition-all duration-300"
               class:-rotate-45={menuOpen}
               class:-translate-y-2={menuOpen}
             ></span>
