@@ -1,7 +1,6 @@
 <script>
   import { browser } from '$app/environment';
 
-  import { getHeroBySlot, getImageUrl } from '$lib/api/media.js';
   import Footer from '$lib/components/Footer.svelte';
   import Header from '$lib/components/Header.svelte';
   import ScrollAnimation from '$lib/components/ScrollAnimation.svelte';
@@ -12,12 +11,6 @@
   let { data = {} } = $props();
 
   const copy = data.content || {};
-  const media = data.media || {};
-
-  const homeHeroImage = getHeroBySlot(media, 'home_hero_image');
-  const heroBgImage = homeHeroImage
-    ? getImageUrl(homeHeroImage, { width: 1920, height: 1080, crop: 'fill' })
-    : '/images/7324-Rendering-Plaza-230808-small.jpg';
 
   let heroSection = $state();
   let parallaxOffset = $state(0);
@@ -54,7 +47,8 @@
 <Head
   pageTitle="Home"
   {data}
-  description={copy.global_meta_description || "Atrium Court – affordable, modern apartment homes in Seattle's Othello neighborhood with Link-connected living and community-focused amenities."}
+  description={copy.global_meta_description ||
+    "Atrium Court – affordable, modern apartment homes in Seattle's Othello neighborhood with Link-connected living and community-focused amenities."}
 />
 
 <div class="relative">
@@ -74,7 +68,9 @@
     <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
       <ScrollAnimation type="fade-slide-up" duration={800}>
         <div class="text-center space-y-4 md:space-y-6">
-          <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold tracking-[0.08em] text-[color:#D8E8EF]">
+          <h1
+            class="text-4xl md:text-6xl lg:text-7xl font-bold tracking-[0.08em] text-[color:#D8E8EF]"
+          >
             Atrium Court
           </h1>
           <h2 class="text-2xl md:text-3xl lg:text-4xl text-[color:#D8E8EF]">
@@ -94,7 +90,8 @@
         <h2
           class="text-center text-[color:#81A9BB] tracking-[0.2em] text-xl md:text-2xl leading-relaxed max-w-3xl font-semibold"
         >
-          Welcome to Atrium Court Apartments, your future home in the heart of Seattle's dynamic Othello neighborhood!
+          Welcome to Atrium Court Apartments, your future home in the heart of Seattle's dynamic
+          Othello neighborhood!
         </h2>
       </div>
     </ScrollAnimation>
@@ -114,9 +111,9 @@
             Apartment Homes
           </h3>
           <p class="text-sm text-[color:#151028] max-w-xs flex-1">
-            Designed with efficiency in mind, our floor plans offer highly functional living spaces in a compact
-            footprint. Our stylish interiors feature large windows, modern kitchens, open floor plans, and balconies
-            with stunning views.
+            Designed with efficiency in mind, our floor plans offer highly functional living spaces
+            in a compact footprint. Our stylish interiors feature large windows, modern kitchens,
+            open floor plans, and balconies with stunning views.
           </p>
           <a
             href={ROUTES.AVAILABILITY}
@@ -139,9 +136,9 @@
             Located Centrally
           </h3>
           <p class="text-sm text-[color:#151028] max-w-xs flex-1">
-            Experience Othello, a truly vibrant, multicultural community! Centered around the Link Light Rail station,
-            our neighborhood is a strong hub for local activity and is rich in heritage from diverse immigrant and
-            refugee populations.
+            Experience Othello, a truly vibrant, multicultural community! Centered around the Link
+            Light Rail station, our neighborhood is a strong hub for local activity and is rich in
+            heritage from diverse immigrant and refugee populations.
           </p>
           <a
             href={ROUTES.NEIGHBORHOOD}
@@ -164,9 +161,9 @@
             Your Community Hub
           </h3>
           <p class="text-sm text-[color:#151028] max-w-xs flex-1">
-            The heart of the building is our open, atrium-style central courtyard, an inviting space for residents to
-            gather and lounge. Plus, a retail plaza serves as a lovely community gathering area for everyone who wants
-            to relax and enjoy the bustling streetscape.
+            The heart of the building is our open, atrium-style central courtyard, an inviting space
+            for residents to gather and lounge. Plus, a retail plaza serves as a lovely community
+            gathering area for everyone who wants to relax and enjoy the bustling streetscape.
           </p>
           <a
             href={ROUTES.NEIGHBORHOOD}
@@ -199,10 +196,11 @@
           </ScrollAnimation>
           <ScrollAnimation type="fade-slide-up" duration={700} delay={150}>
             <p class="text-sm md:text-base tracking-[0.06em] text-[color:#151028]">
-              This new, thoughtfully designed community offers 271 units of affordable workforce housing, placing you
-              directly in one of the city's most vibrant and connected areas, just steps from the Link Light Rail
-              station. We've focused on creating efficient, functional living spaces and incorporating amenities that
-              truly serve our residents and the surrounding area.
+              This new, thoughtfully designed community offers 271 units of affordable workforce
+              housing, placing you directly in one of the city's most vibrant and connected areas,
+              just steps from the Link Light Rail station. We've focused on creating efficient,
+              functional living spaces and incorporating amenities that truly serve our residents
+              and the surrounding area.
             </p>
           </ScrollAnimation>
           <ScrollAnimation type="fade-slide-up" duration={700} delay={250}>
@@ -245,10 +243,11 @@
         </ScrollAnimation>
         <ScrollAnimation type="fade-slide-up" duration={700} delay={150}>
           <p class="text-sm md:text-base tracking-[0.06em] text-[color:#D8E8EF]">
-            Beyond providing modern housing, we believe in being part of the larger neighborhood fabric: The Atrium
-            Court Apartments is designed not just as a building, but as a central, connected, and committed partner in
-            the Othello neighborhood's continued growth and diversity. We look forward to welcoming you home to a
-            community that is designed for stability, accessibility, and cultural connection.
+            Beyond providing modern housing, we believe in being part of the larger neighborhood
+            fabric: The Atrium Court Apartments is designed not just as a building, but as a
+            central, connected, and committed partner in the Othello neighborhood's continued growth
+            and diversity. We look forward to welcoming you home to a community that is designed for
+            stability, accessibility, and cultural connection.
           </p>
         </ScrollAnimation>
         <ScrollAnimation type="fade-slide-up" duration={700} delay={250}>
@@ -276,11 +275,12 @@
           Othello Living, Link Connected.
         </h2>
         <p class="text-sm md:text-base max-w-3xl tracking-[0.06em] text-[color:#151028]">
-          Atrium Court offers <b>affordable, modern living</b> designed for efficiency right in the heart of the dynamic
-          Othello urban village. With <b>Link Light Rail station</b> at your doorstep, you'll have unparalleled access
-          to major hubs like Downtown Seattle. Residents enjoy a culturally rich environment with on-site
-          <b>community-focused public art</b> and ground-floor retail, all within steps of diverse dining, parks, and
-          local amenities.
+          Atrium Court offers <b>affordable, modern living</b> designed for efficiency right in the
+          heart of the dynamic Othello urban village. With <b>Link Light Rail station</b> at your
+          doorstep, you'll have unparalleled access to major hubs like Downtown Seattle. Residents
+          enjoy a culturally rich environment with on-site
+          <b>community-focused public art</b> and ground-floor retail, all within steps of diverse dining,
+          parks, and local amenities.
         </p>
       </div>
     </ScrollAnimation>
@@ -298,8 +298,9 @@
             Othello Park
           </h3>
           <p class="text-sm text-[color:#151028]">
-            Located just steps away, the nearby green space is a great escape, offering open fields, walking paths, and
-            a play area for every kind of outdoor activity, from relaxing to active play.
+            Located just steps away, the nearby green space is a great escape, offering open fields,
+            walking paths, and a play area for every kind of outdoor activity, from relaxing to
+            active play.
           </p>
         </div>
 
@@ -314,24 +315,21 @@
             Pets Welcome
           </h3>
           <p class="text-sm text-[color:#151028]">
-            Bring your pets along! We encourage you to enjoy social hour with your pet in our community spaces, and
-            having parks nearby makes daily walks convenient for both of you.
+            Bring your pets along! We encourage you to enjoy social hour with your pet in our
+            community spaces, and having parks nearby makes daily walks convenient for both of you.
           </p>
         </div>
 
         <!-- City-Wide Access -->
         <div class="flex flex-col items-center text-center space-y-4">
-          <img
-            src="/images/rail.png"
-            alt="Othello Light Rail"
-            class="w-28 h-28 object-contain"
-          />
+          <img src="/images/rail.png" alt="Othello Light Rail" class="w-28 h-28 object-contain" />
           <h3 class="uppercase tracking-[0.18em] text-[color:#81A9BB] text-lg font-semibold">
             City-Wide Access
           </h3>
           <p class="text-sm text-[color:#151028]">
-            Since we're a Transit-Oriented Development, the Othello Link Station is right outside. This means you have
-            direct, fast access to city-wide destinations, including Downtown Seattle and University District.
+            Since we're a Transit-Oriented Development, the Othello Link Station is right outside.
+            This means you have direct, fast access to city-wide destinations, including Downtown
+            Seattle and University District.
           </p>
         </div>
       </div>
@@ -356,10 +354,7 @@
             Affordable, modern homes in a connected, culturally rich neighborhood.
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center mt-4">
-            <a
-              href={ROUTES.AVAILABILITY}
-              class="cta-btn-search px-8 py-3 tracking-[0.18em]"
-            >
+            <a href={ROUTES.AVAILABILITY} class="cta-btn-search px-8 py-3 tracking-[0.18em]">
               Search Availability
             </a>
             <a

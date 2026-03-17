@@ -1,8 +1,8 @@
 <script>
-  import * as Dialog from '$lib/components/ui/dialog';
   import Footer from '$lib/components/Footer.svelte';
   import Header from '$lib/components/Header.svelte';
   import ScrollAnimation from '$lib/components/ScrollAnimation.svelte';
+  import * as Dialog from '$lib/components/ui/dialog';
   import { ROUTES } from '$lib/config/routes.js';
   import Head from '$lib/seo/Head.svelte';
 
@@ -12,7 +12,6 @@
   const listings = data.listings ?? [];
   const specials = data.specials ?? [];
   const affordableHousingRestrictions = data.affordableHousingRestrictions ?? [];
-  const showAffordableContent = data.showAffordableContent === true;
 
   /** @type {any} */
   let selectedListing = $state(null);
@@ -24,11 +23,6 @@
 
   function closeModal() {
     selectedListing = null;
-  }
-
-  /** @param {any} listing */
-  function listingId(listing) {
-    return listing.id ?? listing.unitId ?? '';
   }
 
   /** Parse YouTube video ID from url (v=, youtu.be, or embed). */
@@ -43,12 +37,16 @@
   function listingPhotos(listing) {
     const arr = listing.listingPhotos ?? listing.unitPhotos ?? listing.photos;
     if (!Array.isArray(arr)) return [];
-    return arr.map((p) => (typeof p === 'string' ? p : p?.url ?? p?.thumbnailUrl)).filter(Boolean);
+    return arr.map(p => (typeof p === 'string' ? p : (p?.url ?? p?.thumbnailUrl))).filter(Boolean);
   }
 
   /** @param {any} listing */
   function listingAmenities(listing) {
-    const a = listing.primaryAmenities ?? listing.amenities ?? listing.listingAmenities ?? listing.unitAmenities;
+    const a =
+      listing.primaryAmenities ??
+      listing.amenities ??
+      listing.listingAmenities ??
+      listing.unitAmenities;
     if (Array.isArray(a)) return a;
     if (typeof a === 'string') return [a];
     return [];
@@ -59,7 +57,7 @@
   function isAffordableListing(listing) {
     return !!(
       listing?.affordableHousingProgramName ||
-      (listing?.incomeLimits?.limits?.length > 0) ||
+      listing?.incomeLimits?.limits?.length > 0 ||
       listing?.amiPercent != null
     );
   }
@@ -74,12 +72,15 @@
     if (!programName || affordableHousingRestrictions.length === 0) return null;
     /** @type {any[]} */
     const restrictionsList = affordableHousingRestrictions;
-    const program = restrictionsList.find((p) => p.restrictionName === programName);
+    const program = restrictionsList.find(p => p.restrictionName === programName);
     if (!program) return null;
     /** @type {any[]} */
     const variations = program.restrictionsForDisplay ?? program.restrictions ?? [];
     const bedrooms = listing?.primaryBedrooms ?? listing?.bedrooms;
-    const variation = variations.find((v) => v.bedrooms === bedrooms) ?? variations.find((v) => v.bedrooms == null) ?? variations[0];
+    const variation =
+      variations.find(v => v.bedrooms === bedrooms) ??
+      variations.find(v => v.bedrooms == null) ??
+      variations[0];
     if (!variation?.incomeLimits?.limits?.length) return null;
     return {
       limits: variation.incomeLimits.limits,
@@ -105,7 +106,13 @@
 
   /** @param {any} special */
   function specialTitle(special) {
-    return special.marketingTitle || special.primaryDescription || special.description || special.unitName || 'Special Offer';
+    return (
+      special.marketingTitle ||
+      special.primaryDescription ||
+      special.description ||
+      special.unitName ||
+      'Special Offer'
+    );
   }
 
   /** First photo URL from transformed listing (listingPhotos / unitPhotos / photos). */
@@ -114,7 +121,7 @@
     const arr = listing.listingPhotos ?? listing.unitPhotos ?? listing.photos;
     if (!Array.isArray(arr) || arr.length === 0) return null;
     const first = arr[0];
-    return typeof first === 'string' ? first : first?.url ?? first?.thumbnailUrl ?? null;
+    return typeof first === 'string' ? first : (first?.url ?? first?.thumbnailUrl ?? null);
   }
 
   /** @param {any} listing */
@@ -145,7 +152,7 @@
 
 <Head
   pageTitle="Availability | Atrium Court"
-  data={data}
+  {data}
   description="View available apartments at Atrium Court in Seattle's Othello neighborhood. Compare floor plans and apply online."
 />
 
@@ -180,13 +187,16 @@
   style:background-image="url('/images/pattern2-scaled.png')"
 >
   <div class="container mx-auto px-4 md:px-6 lg:px-8 max-w-6xl">
-    <div class="relative bg-white rounded-lg p-6 md:p-10 shadow-[0_16px_32px_rgba(38,57,84,0.1)] -mt-[10%] mb-8">
+    <div
+      class="relative bg-white rounded-lg p-6 md:p-10 shadow-[0_16px_32px_rgba(38,57,84,0.1)] -mt-[10%] mb-8"
+    >
       <ScrollAnimation type="fade-slide-up" duration={600}>
         <h2 class="text-2xl md:text-3xl font-bold text-[color:#151028] mb-4">
           Available Apartments
         </h2>
         <p class="text-[color:#151028]/90 text-base max-w-3xl mb-10">
-          Browse current availability and filter by floor plan, move-in date, and rent. If nothing matches today, join our waitlist to be notified when new homes become available.
+          Browse current availability and filter by floor plan, move-in date, and rent. If nothing
+          matches today, join our waitlist to be notified when new homes become available.
         </p>
       </ScrollAnimation>
 
@@ -194,11 +204,18 @@
       {#if specials.length > 0}
         <ScrollAnimation type="fade-slide-up" duration={600} delay={80}>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-12">
-            {#each specials as special}
-              <div class="bg-atrium-navy border-2 border-[color:#F2A73B] rounded-xl p-5 md:p-6 shadow-md hover:shadow-lg transition-shadow">
-                <h3 class="text-sm font-bold uppercase tracking-wider text-[color:#F2A73B] mb-2">Special Offer Available!</h3>
+            {#each specials as special (special?.id ?? special?.title ?? special)}
+              <div
+                class="bg-atrium-navy border-2 border-[color:#F2A73B] rounded-xl p-5 md:p-6 shadow-md hover:shadow-lg transition-shadow"
+              >
+                <h3 class="text-sm font-bold uppercase tracking-wider text-[color:#F2A73B] mb-2">
+                  Special Offer Available!
+                </h3>
                 <p class="text-[color:#D8E8EF] font-medium mb-4">{specialTitle(special)}</p>
-                <a href={ROUTES.CONTACT_US} class="btn-atrium-primary inline-block text-sm px-5 py-2.5 rounded-lg">
+                <a
+                  href={ROUTES.CONTACT_US}
+                  class="btn-atrium-primary inline-block text-sm px-5 py-2.5 rounded-lg"
+                >
                   Contact Us
                 </a>
               </div>
@@ -212,14 +229,19 @@
         <ScrollAnimation type="fade-slide-up" duration={600}>
           <p class="text-[color:#151028]/90 text-sm md:text-base mb-6">
             This property has affordable, income-restricted homes available. Click the
-            <a href={ROUTES.AFFORDABLE} class="font-semibold underline text-[color:#151028]">Income Restricted</a>
+            <a href={ROUTES.AFFORDABLE} class="font-semibold underline text-[color:#151028]"
+              >Income Restricted</a
+            >
             badge on a listing for details.
           </p>
         </ScrollAnimation>
       {/if}
 
       <!-- Section 6: Listing cards — click or "Learn More" opens detail modal (6.7) -->
-      <section class="availability-listing-cards py-12 md:py-16 lg:py-20 bg-gray-50 -mx-4 md:-mx-6 lg:-mx-8 px-4 md:px-6 lg:px-8 mt-10 mb-14" style="--primary-color: #151028">
+      <section
+        class="availability-listing-cards py-12 md:py-16 lg:py-20 bg-gray-50 -mx-4 md:-mx-6 lg:-mx-8 px-4 md:px-6 lg:px-8 mt-10 mb-14"
+        style:--primary-color="#151028"
+      >
         <div class="max-w-7xl mx-auto">
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {#each listings as listing (listing.id ?? listing.unitId ?? listing)}
@@ -237,7 +259,7 @@
                 role="button"
                 tabindex="0"
                 onclick={() => openModal(listing)}
-                onkeydown={(e) => {
+                onkeydown={e => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
                     openModal(listing);
@@ -254,35 +276,60 @@
                       />
                       <div
                         class="listing-gradient-overlay"
-                        style="--gradient-overlay-color: {listingCardColor}"
+                        style:--gradient-overlay-color={listingCardColor}
                       ></div>
                     </div>
-                    <div class="absolute top-0 left-0 right-0 z-10 flex items-start justify-between p-3 pointer-events-none">
+                    <div
+                      class="absolute top-0 left-0 right-0 z-10 flex items-start justify-between p-3 pointer-events-none"
+                    >
                       <div class="flex flex-wrap gap-2">
                         {#if youtubeUrl}
-                          <span class="rounded-full bg-white/80 text-atrium-navy text-xs font-semibold px-3 py-1">Video Tour</span>
+                          <span
+                            class="rounded-full bg-white/80 text-atrium-navy text-xs font-semibold px-3 py-1"
+                            >Video Tour</span
+                          >
                         {/if}
                         {#if incomeRestricted}
-                          <span class="rounded-full bg-white/80 text-atrium-navy text-xs font-semibold px-3 py-1">Income Restricted</span>
+                          <span
+                            class="rounded-full bg-white/80 text-atrium-navy text-xs font-semibold px-3 py-1"
+                            >Income Restricted</span
+                          >
                         {/if}
                       </div>
-                      <span class="rounded-full bg-white/80 text-atrium-navy text-xs font-semibold px-3 py-1">Learn More</span>
+                      <span
+                        class="rounded-full bg-white/80 text-atrium-navy text-xs font-semibold px-3 py-1"
+                        >Learn More</span
+                      >
                     </div>
-                    <div class="absolute bottom-0 left-0 right-0 z-10 p-4 text-white pointer-events-none">
+                    <div
+                      class="absolute bottom-0 left-0 right-0 z-10 p-4 text-white pointer-events-none"
+                    >
                       <p class="font-semibold text-lg">{unitName} — {rent}</p>
                       {#if bedsSqft}
                         <p class="text-sm opacity-95">{bedsSqft}</p>
                       {/if}
                       <div class="flex flex-wrap gap-2 mt-3 pointer-events-auto">
                         {#if applicationUrl}
-                          <a href={applicationUrl} class="primary-btn text-xs font-semibold px-4 py-2 rounded inline-block" target="_blank" rel="noopener noreferrer" onclick={(e) => e.stopPropagation()}>Apply Now</a>
+                          <a
+                            href={applicationUrl}
+                            class="primary-btn text-xs font-semibold px-4 py-2 rounded inline-block"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onclick={e => e.stopPropagation()}>Apply Now</a
+                          >
                         {/if}
-                        <a href={tourUrl} class="primary-btn text-xs font-semibold px-4 py-2 rounded inline-block" onclick={(e) => e.stopPropagation()}>Schedule Tour</a>
+                        <a
+                          href={tourUrl}
+                          class="primary-btn text-xs font-semibold px-4 py-2 rounded inline-block"
+                          onclick={e => e.stopPropagation()}>Schedule Tour</a
+                        >
                       </div>
                     </div>
                   </div>
                 {:else}
-                  <div class="h-full w-full flex flex-col items-center justify-center p-4 bg-atrium-navy/10 text-atrium-navy text-center">
+                  <div
+                    class="h-full w-full flex flex-col items-center justify-center p-4 bg-atrium-navy/10 text-atrium-navy text-center"
+                  >
                     <p class="font-semibold text-lg">{unitName}</p>
                     <p class="text-sm mt-1">{rent}</p>
                     {#if bedsSqft}
@@ -290,16 +337,28 @@
                     {/if}
                     <div class="flex flex-wrap gap-2 mt-4 justify-center">
                       {#if applicationUrl}
-                        <a href={applicationUrl} class="primary-btn text-xs font-semibold px-4 py-2 rounded" target="_blank" rel="noopener noreferrer" onclick={(e) => e.stopPropagation()}>Apply Now</a>
+                        <a
+                          href={applicationUrl}
+                          class="primary-btn text-xs font-semibold px-4 py-2 rounded"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onclick={e => e.stopPropagation()}>Apply Now</a
+                        >
                       {/if}
-                      <a href={tourUrl} class="primary-btn text-xs font-semibold px-4 py-2 rounded" onclick={(e) => e.stopPropagation()}>Schedule Tour</a>
+                      <a
+                        href={tourUrl}
+                        class="primary-btn text-xs font-semibold px-4 py-2 rounded"
+                        onclick={e => e.stopPropagation()}>Schedule Tour</a
+                      >
                     </div>
                   </div>
                 {/if}
               </div>
             {:else}
               <div class="col-span-full py-16 px-6 text-center">
-                <p class="text-[color:#151028] text-lg font-medium">Sorry, listings will show here soon!</p>
+                <p class="text-[color:#151028] text-lg font-medium">
+                  Sorry, listings will show here soon!
+                </p>
               </div>
             {/each}
           </div>
@@ -310,7 +369,9 @@
       <ScrollAnimation type="fade-slide-up" duration={600}>
         <h2 class="text-xl md:text-2xl font-bold text-[color:#151028] mb-4">Before You Apply</h2>
         <p class="text-[color:#151028]/90 text-base max-w-3xl mb-12">
-          All applicants must complete a rental application and pass screening: identity verification, income verification (typically 2.5–3x rent), credit review, and criminal background check. Application fee applies per adult applicant.
+          All applicants must complete a rental application and pass screening: identity
+          verification, income verification (typically 2.5–3x rent), credit review, and criminal
+          background check. Application fee applies per adult applicant.
         </p>
       </ScrollAnimation>
 
@@ -318,7 +379,9 @@
       <ScrollAnimation type="fade-slide-up" duration={600}>
         <h2 class="text-xl md:text-2xl font-bold text-[color:#151028] mb-4">Contact Leasing</h2>
         <p class="text-[color:#151028]/90 text-base max-w-3xl mb-6">
-          Questions about availability, tours, or the application process? Our leasing team at Atrium Court is ready to help. Reach out or schedule a tour to see the community in person.
+          Questions about availability, tours, or the application process? Our leasing team at
+          Atrium Court is ready to help. Reach out or schedule a tour to see the community in
+          person.
         </p>
         <a href={ROUTES.CONTACT_US} class="btn-atrium-primary inline-block text-sm px-6 py-3">
           Contact Us
@@ -342,10 +405,7 @@
             Live Othello Village Life.
           </h2>
           <div class="flex flex-col sm:flex-row gap-4 justify-center mt-4">
-            <a
-              href={ROUTES.AVAILABILITY}
-              class="cta-btn-search px-8 py-3 tracking-[0.18em]"
-            >
+            <a href={ROUTES.AVAILABILITY} class="cta-btn-search px-8 py-3 tracking-[0.18em]">
               Search Availability
             </a>
             <a
@@ -364,7 +424,7 @@
 <!-- Listing Details Modal (section 6.7): overlay + close + scrollable content -->
 <Dialog.Root
   open={selectedListing != null}
-  onOpenChange={(open) => {
+  onOpenChange={open => {
     if (!open) closeModal();
   }}
 >
@@ -385,16 +445,26 @@
       <div class="pr-10">
         <h2 class="text-xl md:text-2xl font-bold">Unit {unitName}</h2>
         {#if isAffordableListing(selectedListing)}
-          <span class="inline-block mt-2 rounded-full bg-[color:#F2A73B]/20 text-[color:#151028] text-xs font-semibold px-3 py-1">Income Restricted</span>
+          <span
+            class="inline-block mt-2 rounded-full bg-[color:#F2A73B]/20 text-[color:#151028] text-xs font-semibold px-3 py-1"
+            >Income Restricted</span
+          >
         {/if}
       </div>
 
       <!-- 2. Top CTAs -->
       <div class="flex flex-wrap gap-3 mt-4">
         {#if applicationUrl && acceptingApplications}
-          <a href={applicationUrl} target="_blank" rel="noopener noreferrer" class="primary-btn text-sm font-semibold px-5 py-2.5 rounded">Apply Now</a>
+          <a
+            href={applicationUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="primary-btn text-sm font-semibold px-5 py-2.5 rounded">Apply Now</a
+          >
         {/if}
-        <a href={tourUrl} class="primary-btn text-sm font-semibold px-5 py-2.5 rounded">Schedule a Tour</a>
+        <a href={tourUrl} class="primary-btn text-sm font-semibold px-5 py-2.5 rounded"
+          >Schedule a Tour</a
+        >
       </div>
 
       <!-- 3. Details band -->
@@ -404,10 +474,18 @@
           <span>{selectedListing.primarySquareFeet ?? selectedListing.sqft} sq ft</span>
         {/if}
         {#if selectedListing.primaryBedrooms != null}
-          <span>{selectedListing.primaryBedrooms} bed{selectedListing.primaryBedrooms !== 1 ? 's' : ''}</span>
+          <span
+            >{selectedListing.primaryBedrooms} bed{selectedListing.primaryBedrooms !== 1
+              ? 's'
+              : ''}</span
+          >
         {/if}
         {#if selectedListing.primaryBathrooms != null}
-          <span>{selectedListing.primaryBathrooms} bath{selectedListing.primaryBathrooms !== 1 ? 's' : ''}</span>
+          <span
+            >{selectedListing.primaryBathrooms} bath{selectedListing.primaryBathrooms !== 1
+              ? 's'
+              : ''}</span
+          >
         {/if}
         {#if selectedListing.availableOn}
           <span>Available {new Date(selectedListing.availableOn).toLocaleDateString()}</span>
@@ -418,7 +496,9 @@
 
       <!-- 4. Description -->
       {#if selectedListing.primaryDescription ?? selectedListing.description}
-        <p class="mt-4 text-[color:#151028]/90 text-sm">{selectedListing.primaryDescription ?? selectedListing.description}</p>
+        <p class="mt-4 text-[color:#151028]/90 text-sm">
+          {selectedListing.primaryDescription ?? selectedListing.description}
+        </p>
       {/if}
 
       <!-- 5. Video tour -->
@@ -439,7 +519,7 @@
         <div class="mt-4">
           <h3 class="text-sm font-semibold text-[color:#151028]/80 mb-2">Photos</h3>
           <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-            {#each photos as photo}
+            {#each photos as photo (photo)}
               <img src={photo} alt="" class="w-full aspect-[4/3] object-cover rounded" />
             {/each}
           </div>
@@ -451,8 +531,11 @@
         <div class="mt-4">
           <h3 class="text-sm font-semibold text-[color:#151028]/80 mb-2">Amenities</h3>
           <div class="flex flex-wrap gap-2">
-            {#each amenities as amenity}
-              <span class="rounded-full bg-gray-100 text-[color:#151028] text-xs font-medium px-3 py-1">{amenity}</span>
+            {#each amenities as amenity (amenity)}
+              <span
+                class="rounded-full bg-gray-100 text-[color:#151028] text-xs font-medium px-3 py-1"
+                >{amenity}</span
+              >
             {/each}
           </div>
         </div>
@@ -465,7 +548,9 @@
           <h3 class="text-sm font-semibold text-[color:#151028]/80 mb-2">
             Income Restricted Housing
             {#if selectedListing.affordableHousingProgramName}
-              <span class="font-normal text-[color:#151028]/70">({selectedListing.affordableHousingProgramName})</span>
+              <span class="font-normal text-[color:#151028]/70"
+                >({selectedListing.affordableHousingProgramName})</span
+              >
             {/if}
           </h3>
           {#if selectedListing.amiPercent != null}
@@ -473,7 +558,9 @@
           {/if}
           {#if incomeLimitsData && incomeLimitsData.limits?.length > 0}
             {@const lim = incomeLimitsData}
-            <p class="text-xs text-[color:#151028]/70 mb-2">Applicants must earn at or below these amounts (annual household income):</p>
+            <p class="text-xs text-[color:#151028]/70 mb-2">
+              Applicants must earn at or below these amounts (annual household income):
+            </p>
             <div class="overflow-x-auto">
               <table class="w-full text-sm border border-gray-200">
                 <thead>
@@ -483,9 +570,11 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {#each lim.limits as limit}
+                  {#each lim.limits as limit (limit.householdSize)}
                     <tr class="border-t border-gray-100">
-                      <td class="p-2">{limit.householdSize} person{limit.householdSize === 1 ? '' : 's'}</td>
+                      <td class="p-2"
+                        >{limit.householdSize} person{limit.householdSize === 1 ? '' : 's'}</td
+                      >
                       <td class="text-right p-2">{formatIncomeLimit(limit.limit)}</td>
                     </tr>
                   {/each}
@@ -496,7 +585,12 @@
               <p class="text-xs text-[color:#151028]/60 mt-1">Limits for {lim.year}</p>
             {/if}
           {:else}
-            <p class="text-sm text-[color:#151028]/80">Income limits apply. See our <a href={ROUTES.AFFORDABLE} class="underline font-semibold">Affordable Housing</a> page for details.</p>
+            <p class="text-sm text-[color:#151028]/80">
+              Income limits apply. See our <a
+                href={ROUTES.AFFORDABLE}
+                class="underline font-semibold">Affordable Housing</a
+              > page for details.
+            </p>
           {/if}
         </div>
       {/if}
@@ -519,9 +613,16 @@
       <!-- 9. Bottom CTAs -->
       <div class="flex flex-wrap gap-3 mt-6 pt-4 border-t border-gray-200">
         {#if applicationUrl && acceptingApplications}
-          <a href={applicationUrl} target="_blank" rel="noopener noreferrer" class="primary-btn text-sm font-semibold px-5 py-2.5 rounded">Apply Now</a>
+          <a
+            href={applicationUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="primary-btn text-sm font-semibold px-5 py-2.5 rounded">Apply Now</a
+          >
         {/if}
-        <a href={tourUrl} class="primary-btn text-sm font-semibold px-5 py-2.5 rounded">Schedule a Tour</a>
+        <a href={tourUrl} class="primary-btn text-sm font-semibold px-5 py-2.5 rounded"
+          >Schedule a Tour</a
+        >
       </div>
     {/if}
   </Dialog.Content>

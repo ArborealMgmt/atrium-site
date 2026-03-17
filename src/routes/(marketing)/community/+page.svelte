@@ -44,21 +44,43 @@
       <h2 class="text-2xl md:text-3xl tracking-[0.18em] text-[color:#81A9BB] text-center mb-6">
         Welcome to Your Community Hub!
       </h2>
-      <p class="text-center text-[color:#151028] text-sm md:text-base max-w-[82%] mx-auto tracking-[0.06em] mb-10">
-        At Atrium Court, we believe a great home extends beyond your front door. Our amenities are thoughtfully designed to foster connection, celebrate the local culture, and make life vibrant right where you live.
+      <p
+        class="text-center text-[color:#151028] text-sm md:text-base max-w-[82%] mx-auto tracking-[0.06em] mb-10"
+      >
+        At Atrium Court, we believe a great home extends beyond your front door. Our amenities are
+        thoughtfully designed to foster connection, celebrate the local culture, and make life
+        vibrant right where you live.
       </p>
     </ScrollAnimation>
     <ScrollAnimation type="fade-slide-up" duration={800} delay={100}>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 max-w-5xl mx-auto">
         <div class="flex flex-col items-center text-center">
-          <img src="/images/welcome-art.png" alt="Community art" class="w-28 h-28 object-contain mb-4" />
-          <h3 class="uppercase tracking-[0.18em] text-[color:#81A9BB] text-lg font-semibold mb-2">Art That Connects</h3>
-          <p class="text-sm text-[color:#151028]">Be inspired every day by our commitment to local culture, featuring captivating <b>public art</b>. Right at the entrance, you'll find a stunning lighted rotating sculpture by local artist Fumi Amano, displaying warm greetings in the diverse languages spoken by the Othello community.</p>
+          <img
+            src="/images/welcome-art.png"
+            alt="Community art"
+            class="w-28 h-28 object-contain mb-4"
+          />
+          <h3 class="uppercase tracking-[0.18em] text-[color:#81A9BB] text-lg font-semibold mb-2">
+            Art That Connects
+          </h3>
+          <p class="text-sm text-[color:#151028]">
+            Be inspired every day by our commitment to local culture, featuring captivating <b
+              >public art</b
+            >. Right at the entrance, you'll find a stunning lighted rotating sculpture by local
+            artist Fumi Amano, displaying warm greetings in the diverse languages spoken by the
+            Othello community.
+          </p>
         </div>
         <div class="flex flex-col items-center text-center">
           <img src="/images/retail.png" alt="Retail level" class="w-28 h-28 object-contain mb-4" />
-          <h3 class="uppercase tracking-[0.18em] text-[color:#81A9BB] text-lg font-semibold mb-2">Retail Right Below</h3>
-          <p class="text-sm text-[color:#151028]">Keep an eye out for upcoming BCOF businesses at Atrium Court! The BCO Fund—a collaboration between the City of Seattle's OED and Grow America—helps local businesses secure affordable, fixed rents through a shared ownership model.</p>
+          <h3 class="uppercase tracking-[0.18em] text-[color:#81A9BB] text-lg font-semibold mb-2">
+            Retail Right Below
+          </h3>
+          <p class="text-sm text-[color:#151028]">
+            Keep an eye out for upcoming BCOF businesses at Atrium Court! The BCO Fund—a
+            collaboration between the City of Seattle's OED and Grow America—helps local businesses
+            secure affordable, fixed rents through a shared ownership model.
+          </p>
           <a
             href="https://growamerica.org"
             target="_blank"
@@ -69,9 +91,19 @@
           </a>
         </div>
         <div class="flex flex-col items-center text-center">
-          <img src="/images/community-lounge.png" alt="Community Lounge" class="w-28 h-28 object-contain mb-4" />
-          <h3 class="uppercase tracking-[0.18em] text-[color:#81A9BB] text-lg font-semibold mb-2">The Courtyard Retreat</h3>
-          <p class="text-sm text-[color:#151028]">Step into our beautiful <b>open courtyard area</b>, a welcoming communal outdoor space perfect for relaxing, connecting with neighbors, or simply enjoying a peaceful moment outdoors.</p>
+          <img
+            src="/images/community-lounge.png"
+            alt="Community Lounge"
+            class="w-28 h-28 object-contain mb-4"
+          />
+          <h3 class="uppercase tracking-[0.18em] text-[color:#81A9BB] text-lg font-semibold mb-2">
+            The Courtyard Retreat
+          </h3>
+          <p class="text-sm text-[color:#151028]">
+            Step into our beautiful <b>open courtyard area</b>, a welcoming communal outdoor space
+            perfect for relaxing, connecting with neighbors, or simply enjoying a peaceful moment
+            outdoors.
+          </p>
         </div>
       </div>
     </ScrollAnimation>
@@ -176,19 +208,42 @@
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 max-w-5xl mx-auto">
         <div class="flex flex-col items-center text-center">
-          <img src="/images/bike-storage.png" alt="Bike storage" class="w-28 h-28 object-contain mb-4" />
-          <h3 class="uppercase tracking-[0.18em] text-[color:#81A9BB] text-lg font-semibold mb-2">Secure Bicycle Storage</h3>
-          <p class="text-sm text-[color:#151028]">Got a bike? No problem! We've made sure there's <b>ample and secure space</b>, so you can easily store your wheels without cluttering up your apartment.</p>
+          <img
+            src="/images/bike-storage.png"
+            alt="Bike storage"
+            class="w-28 h-28 object-contain mb-4"
+          />
+          <h3 class="uppercase tracking-[0.18em] text-[color:#81A9BB] text-lg font-semibold mb-2">
+            Secure Bicycle Storage
+          </h3>
+          <p class="text-sm text-[color:#151028]">
+            Got a bike? No problem! We've made sure there's <b>ample and secure space</b>, so you
+            can easily store your wheels without cluttering up your apartment.
+          </p>
         </div>
         <div class="flex flex-col items-center text-center">
-          <img src="/images/package-area.png" alt="Package receiving" class="w-28 h-28 object-contain mb-4" />
-          <h3 class="uppercase tracking-[0.18em] text-[color:#81A9BB] text-lg font-semibold mb-2">Package Receiving</h3>
-          <p class="text-sm text-[color:#151028]">We also have a great <b>package receiving area</b> so you never have to worry about missing a delivery or having your packages sit out on the doorstep!</p>
+          <img
+            src="/images/package-area.png"
+            alt="Package receiving"
+            class="w-28 h-28 object-contain mb-4"
+          />
+          <h3 class="uppercase tracking-[0.18em] text-[color:#81A9BB] text-lg font-semibold mb-2">
+            Package Receiving
+          </h3>
+          <p class="text-sm text-[color:#151028]">
+            We also have a great <b>package receiving area</b> so you never have to worry about missing
+            a delivery or having your packages sit out on the doorstep!
+          </p>
         </div>
         <div class="flex flex-col items-center text-center">
           <img src="/images/garage.png" alt="Garage" class="w-28 h-28 object-contain mb-4" />
-          <h3 class="uppercase tracking-[0.18em] text-[color:#81A9BB] text-lg font-semibold mb-2">Underground Parking</h3>
-          <p class="text-sm text-[color:#151028]">Since we're right next to the Light Rail, we kept the car spots to a minimum. We have a small amount of <b>secured parking available</b>.</p>
+          <h3 class="uppercase tracking-[0.18em] text-[color:#81A9BB] text-lg font-semibold mb-2">
+            Underground Parking
+          </h3>
+          <p class="text-sm text-[color:#151028]">
+            Since we're right next to the Light Rail, we kept the car spots to a minimum. We have a
+            small amount of <b>secured parking available</b>.
+          </p>
         </div>
       </div>
     </ScrollAnimation>
@@ -209,8 +264,13 @@
             Live Othello Village Life.
           </h2>
           <div class="flex flex-col sm:flex-row gap-4 justify-center mt-4">
-            <a href={ROUTES.AVAILABILITY} class="cta-btn-search px-8 py-3 tracking-[0.18em]">Search Availability</a>
-            <a href="mailto:leasing@arboreal.management" class="cta-btn-tour px-8 py-3 tracking-[0.18em]">Schedule a Tour</a>
+            <a href={ROUTES.AVAILABILITY} class="cta-btn-search px-8 py-3 tracking-[0.18em]"
+              >Search Availability</a
+            >
+            <a
+              href="mailto:leasing@arboreal.management"
+              class="cta-btn-tour px-8 py-3 tracking-[0.18em]">Schedule a Tour</a
+            >
           </div>
         </div>
       </ScrollAnimation>

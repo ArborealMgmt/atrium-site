@@ -15,14 +15,14 @@
   --font-nunito: 'Nunito', sans-serif;
   --font-secondary: var(--font-family-secondary, var(--font-family, 'Open Sans', sans-serif));
   --color-primary-main: #151028;
-  --color-primary: #81A9BB;
-  --color-atrium-hero: #D8E8EF;
+  --color-primary: #81a9bb;
+  --color-atrium-hero: #d8e8ef;
   --color-atrium-cta: #0099e5;
-  --color-atrium-orange: #F2A73B;
+  --color-atrium-orange: #f2a73b;
   --color-atrium-navy: #151028;
-  --color-atrium-section: #D8E8EF;
-  --color-atrium-coral: #F5A088;
-  --color-atrium-magenta: #B23B7C;
+  --color-atrium-section: #d8e8ef;
+  --color-atrium-coral: #f5a088;
+  --color-atrium-magenta: #b23b7c;
   --color-secondary-main: #151028;
   --color-secondary: #151028;
   --color-grey-main: #878787;
@@ -154,14 +154,14 @@ a {
 
   /* Atrium Court theme colors */
   --color-primary-main: #151028;
-  --color-primary: #81A9BB;
-  --color-atrium-hero: #D8E8EF;
+  --color-primary: #81a9bb;
+  --color-atrium-hero: #d8e8ef;
   --color-atrium-cta: #0099e5;
-  --color-atrium-orange: #F2A73B;
+  --color-atrium-orange: #f2a73b;
   --color-atrium-navy: #151028;
-  --color-atrium-section: #D8E8EF;
-  --color-atrium-coral: #F5A088;
-  --color-atrium-magenta: #B23B7C;
+  --color-atrium-section: #d8e8ef;
+  --color-atrium-coral: #f5a088;
+  --color-atrium-magenta: #b23b7c;
 }
 
 /* Screen reader only - for accessibility */
@@ -242,8 +242,8 @@ a {
 .primary-btn {
   @apply px-6 py-3 rounded-lg font-medium text-[15px] transition-all duration-200 cursor-pointer border;
   background-color: #151028;
-  color: #F2A73B;
-  border-color: #F2A73B;
+  color: #f2a73b;
+  border-color: #f2a73b;
 }
 
 .primary-white-btn {
@@ -328,8 +328,8 @@ a {
 .btn-atrium-primary {
   @apply font-nunito font-bold uppercase tracking-wide px-6 py-3 transition-all duration-200 border;
   background-color: #151028;
-  color: #F2A73B;
-  border-color: #F2A73B;
+  color: #f2a73b;
+  border-color: #f2a73b;
 }
 .btn-atrium-primary:hover {
   filter: brightness(1.15);
@@ -338,8 +338,8 @@ a {
 .btn-atrium-secondary {
   @apply font-nunito font-bold uppercase tracking-wide px-6 py-3 transition-all duration-200 border;
   background-color: #151028;
-  color: #F2A73B;
-  border-color: #F2A73B;
+  color: #f2a73b;
+  border-color: #f2a73b;
 }
 .btn-atrium-secondary:hover {
   filter: brightness(1.15);
@@ -350,8 +350,8 @@ a {
 .cta-btn-tour {
   @apply font-nunito font-bold uppercase tracking-wide px-6 py-3 transition-all duration-200 inline-block text-xs md:text-sm border;
   background-color: #151028;
-  color: #F2A73B;
-  border-color: #F2A73B;
+  color: #f2a73b;
+  border-color: #f2a73b;
 }
 .cta-btn-search:hover,
 .cta-btn-tour:hover {
@@ -361,11 +361,13 @@ a {
 /* Listing cards and other primary actions: dark purple + gold */
 .primary-btn {
   background-color: #151028;
-  color: #F2A73B;
-  border: 1px solid #F2A73B;
+  color: #f2a73b;
+  border: 1px solid #f2a73b;
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;
-  transition: background-color 0.2s, filter 0.2s;
+  transition:
+    background-color 0.2s,
+    filter 0.2s;
 }
 .primary-btn:hover {
   filter: brightness(1.15);
@@ -397,14 +399,18 @@ a {
 .listings-wrapper .property-card {
   background: #fff;
   border-radius: 0.75rem;
-  box-shadow: 0 1px 3px rgba(21, 16, 40, 0.1), 0 1px 2px rgba(21, 16, 40, 0.06);
+  box-shadow:
+    0 1px 3px rgba(21, 16, 40, 0.1),
+    0 1px 2px rgba(21, 16, 40, 0.06);
   overflow: hidden;
   cursor: pointer;
   transition: box-shadow 0.2s ease;
 }
 .listings-wrapper .property-card:hover,
 .listings-wrapper .property-card.expanded {
-  box-shadow: 0 10px 25px rgba(21, 16, 40, 0.12), 0 4px 6px rgba(21, 16, 40, 0.05);
+  box-shadow:
+    0 10px 25px rgba(21, 16, 40, 0.12),
+    0 4px 6px rgba(21, 16, 40, 0.05);
 }
 .listings-wrapper .property-preview {
   display: flex;

@@ -297,9 +297,11 @@
                   {/if}
                   {#if contactUrl}
                     <a
-                      href="{contactUrl}?tour={encodeURIComponent(listing.unitName || listing.id || listing.unitId)}"
+                      href="{contactUrl}?tour={encodeURIComponent(
+                        listing.unitName || listing.id || listing.unitId
+                      )}"
                       class="property-schedule-button"
-                      onclick={(e) => e.stopPropagation()}
+                      onclick={e => e.stopPropagation()}
                     >
                       Schedule Tour
                     </a>

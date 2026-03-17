@@ -122,7 +122,9 @@
     <div class="flex items-center justify-between h-20 md:h-24 lg:h-28">
       <a href="/" class="flex items-center">
         {#if logoError}
-          <span class="text-xl md:text-2xl font-bold text-[color:#D8E8EF] tracking-wide">Atrium Court</span>
+          <span class="text-xl md:text-2xl font-bold text-[color:#D8E8EF] tracking-wide"
+            >Atrium Court</span
+          >
         {:else}
           <img
             src="/images/Atrium-Court-Logo.png?v=1"

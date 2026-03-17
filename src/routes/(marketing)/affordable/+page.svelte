@@ -59,7 +59,9 @@
    * @param {Array<{ incomeLimits?: { limits?: Array<{ householdSize: number }> } }>} variations
    */
   function getAllSizes(variations) {
-    const sizes = variations.flatMap((v) => (v.incomeLimits?.limits ?? []).map((l) => l.householdSize)).filter(Boolean);
+    const sizes = variations
+      .flatMap(v => (v.incomeLimits?.limits ?? []).map(l => l.householdSize))
+      .filter(Boolean);
     return [...new Set(sizes)].sort((a, b) => a - b);
   }
 
@@ -67,14 +69,15 @@
    * @param {number} size
    */
   function getLimitForSize(variation, size) {
-    return (variation.incomeLimits?.limits ?? []).find((l) => l.householdSize === size);
+    return (variation.incomeLimits?.limits ?? []).find(l => l.householdSize === size);
   }
 </script>
 
 <Head
   pageTitle="Affordable Housing | Atrium Court"
-  data={data}
-  description={copy.global_meta_description || 'Learn about affordable housing opportunities and income-restricted units at Atrium Court.'}
+  {data}
+  description={copy.global_meta_description ||
+    'Learn about affordable housing opportunities and income-restricted units at Atrium Court.'}
 />
 
 <Header />
@@ -92,10 +95,16 @@
           {heroHeading}
         </h1>
         <div class="flex flex-col sm:flex-row gap-4 justify-center mt-6">
-          <a href={ROUTES.AVAILABILITY} class="btn-atrium-primary px-8 py-3 text-sm font-bold tracking-[0.18em]">
+          <a
+            href={ROUTES.AVAILABILITY}
+            class="btn-atrium-primary px-8 py-3 text-sm font-bold tracking-[0.18em]"
+          >
             View Listings
           </a>
-          <a href={ROUTES.CONTACT_US} class="btn-atrium-primary px-8 py-3 text-sm font-bold tracking-[0.18em]">
+          <a
+            href={ROUTES.CONTACT_US}
+            class="btn-atrium-primary px-8 py-3 text-sm font-bold tracking-[0.18em]"
+          >
             {copy.affordable_cta_text || 'Contact Us'}
           </a>
         </div>
@@ -111,8 +120,11 @@
       <h2 class="text-2xl md:text-3xl tracking-[0.18em] text-[color:#81A9BB] text-center mb-6">
         About Our Affordable Program
       </h2>
-      <p class="text-center text-[color:#151028] text-sm md:text-base max-w-[82%] mx-auto tracking-[0.06em] whitespace-pre-line">
-        {copy.affordable_intro_body || 'We offer income-restricted units for qualifying households. Income limits apply and are based on area median income (AMI).'}
+      <p
+        class="text-center text-[color:#151028] text-sm md:text-base max-w-[82%] mx-auto tracking-[0.06em] whitespace-pre-line"
+      >
+        {copy.affordable_intro_body ||
+          'We offer income-restricted units for qualifying households. Income limits apply and are based on area median income (AMI).'}
       </p>
     </ScrollAnimation>
   </div>
@@ -129,8 +141,10 @@
         <h2 class="text-2xl md:text-3xl tracking-[0.18em] text-[color:#81A9BB] text-center mb-10">
           Eligibility Requirements
         </h2>
-        <ul class="list-disc list-inside space-y-2 text-[color:#151028] text-sm md:text-base tracking-[0.06em] max-w-2xl mx-auto">
-          {#each eligibilityBullets as bullet}
+        <ul
+          class="list-disc list-inside space-y-2 text-[color:#151028] text-sm md:text-base tracking-[0.06em] max-w-2xl mx-auto"
+        >
+          {#each eligibilityBullets as bullet (bullet)}
             <li>{bullet}</li>
           {/each}
         </ul>
@@ -150,8 +164,10 @@
         <h2 class="text-2xl md:text-3xl tracking-[0.18em] text-[color:#81A9BB] text-center mb-10">
           Application Process
         </h2>
-        <ol class="list-decimal list-inside space-y-3 text-[color:#151028] text-sm md:text-base tracking-[0.06em] max-w-2xl mx-auto">
-          {#each processSteps as step}
+        <ol
+          class="list-decimal list-inside space-y-3 text-[color:#151028] text-sm md:text-base tracking-[0.06em] max-w-2xl mx-auto"
+        >
+          {#each processSteps as step (step)}
             <li class="pl-2">{step}</li>
           {/each}
         </ol>
@@ -172,7 +188,7 @@
           Available Programs
         </h2>
         <div class="space-y-10">
-          {#each affordableHousingRestrictions as program}
+          {#each affordableHousingRestrictions as program (program.restrictionName ?? program.regulator ?? program)}
             {@const variations = getRestrictionsForDisplay(program)}
             {@const limitsAreSame = program.limitsAreSame === true}
             {@const year = program.year}
@@ -181,46 +197,65 @@
                 {program.restrictionName}
               </h3>
               {#if program.restrictionType}
-                <p class="text-sm text-[color:#151028]/80 mb-1"><span class="font-semibold">Program type:</span> {program.restrictionType}</p>
+                <p class="text-sm text-[color:#151028]/80 mb-1">
+                  <span class="font-semibold">Program type:</span>
+                  {program.restrictionType}
+                </p>
               {/if}
               {#if program.regulator}
-                <p class="text-sm text-[color:#151028]/80 mb-4"><span class="font-semibold">Regulator:</span> {program.regulator}</p>
+                <p class="text-sm text-[color:#151028]/80 mb-4">
+                  <span class="font-semibold">Regulator:</span>
+                  {program.regulator}
+                </p>
               {/if}
 
               <!-- AMI -->
               {#if program.hasMultipleAMIs}
-                {#each variations as v}
+                {#each variations as v (v.bedrooms ?? v.amiPercent ?? v)}
                   {#if v.amiPercent != null}
                     <p class="text-sm mb-1">
-                      {v.bedrooms == null ? 'All bedroom types' : v.bedrooms + ' bedroom(s)'}: {v.amiPercent}% AMI
+                      {v.bedrooms == null ? 'All bedroom types' : v.bedrooms + ' bedroom(s)'}: {v.amiPercent}%
+                      AMI
                     </p>
                   {/if}
                 {/each}
               {:else if program.amiPercent != null}
-                <p class="text-sm mb-2"><span class="font-semibold">Area Median Income (AMI):</span> {program.amiPercent}%</p>
+                <p class="text-sm mb-2">
+                  <span class="font-semibold">Area Median Income (AMI):</span>
+                  {program.amiPercent}%
+                </p>
               {/if}
 
               <!-- Unit counts -->
               {#if program.hasUnitCount && program.unitCount != null}
                 <p class="text-sm mb-2">
-                  <span class="font-semibold">Available units:</span> {program.unitCount}
+                  <span class="font-semibold">Available units:</span>
+                  {program.unitCount}
                   {#if program.hasTotalRestrictedUnits && program.totalRestrictedUnits != null}
                     of {program.totalRestrictedUnits} restricted
                   {/if}
                 </p>
               {:else if program.hasTotalRestrictedUnits && program.totalRestrictedUnits != null}
-                <p class="text-sm mb-2"><span class="font-semibold">Restricted units:</span> {program.totalRestrictedUnits}</p>
+                <p class="text-sm mb-2">
+                  <span class="font-semibold">Restricted units:</span>
+                  {program.totalRestrictedUnits}
+                </p>
               {/if}
               {#if (!program.unitCount || program.unitCount === 0) && (program.hasTotalRestrictedUnits || program.hasUnitCount === false)}
                 <p class="text-sm mb-2">
-                  <a href={ROUTES.CONTACT_US} class="underline font-semibold text-[color:#81A9BB]">Contact us to be added to the waitlist</a>.
+                  <a href={ROUTES.CONTACT_US} class="underline font-semibold text-[color:#81A9BB]"
+                    >Contact us to be added to the waitlist</a
+                  >.
                 </p>
               {/if}
 
               <!-- Income limits table(s) -->
               {#if limitsAreSame && variations[0]?.incomeLimits?.limits?.length > 0}
                 <div class="mt-4">
-                  <p class="font-semibold text-sm mb-2">Income limits ({year || 'Current year'}) — annual household income must be at or below:</p>
+                  <p class="font-semibold text-sm mb-2">
+                    Income limits ({year || 'Current year'}) — annual household income must be at or
+                    below:
+                  </p>
                   <div class="overflow-x-auto">
                     <table class="w-full text-sm border border-[color:#81A9BB]/30">
                       <thead>
@@ -230,9 +265,13 @@
                         </tr>
                       </thead>
                       <tbody>
-                        {#each variations[0].incomeLimits.limits as limit}
+                        {#each variations[0].incomeLimits.limits as limit (limit.householdSize)}
                           <tr class="border-t border-[color:#81A9BB]/20">
-                            <td class="p-2">{limit.householdSize} person{limit.householdSize === 1 ? '' : 's'}</td>
+                            <td class="p-2"
+                              >{limit.householdSize} person{limit.householdSize === 1
+                                ? ''
+                                : 's'}</td
+                            >
                             <td class="text-right p-2">{formatIncomeLimit(limit.limit)}</td>
                           </tr>
                         {/each}
@@ -243,26 +282,31 @@
               {:else if !limitsAreSame && variations.length > 0}
                 {@const allSizes = getAllSizes(variations)}
                 <div class="mt-4">
-                  <p class="font-semibold text-sm mb-2">Income limits ({year || 'Current year'}) by unit type:</p>
+                  <p class="font-semibold text-sm mb-2">
+                    Income limits ({year || 'Current year'}) by unit type:
+                  </p>
                   <div class="overflow-x-auto">
                     <table class="w-full text-sm border border-[color:#81A9BB]/30">
                       <thead>
                         <tr class="bg-[color:#81A9BB]/10">
                           <th class="text-left p-2 font-semibold">Household Size</th>
-                          {#each variations as v}
+                          {#each variations as v (v.bedrooms ?? v.amiPercent ?? v)}
                             <th class="text-right p-2 font-semibold">
-                              {v.bedrooms == null ? 'All' : v.bedrooms + ' BR'} {#if v.amiPercent != null}({v.amiPercent}% AMI){/if}
+                              {v.bedrooms == null ? 'All' : v.bedrooms + ' BR'}
+                              {#if v.amiPercent != null}({v.amiPercent}% AMI){/if}
                             </th>
                           {/each}
                         </tr>
                       </thead>
                       <tbody>
-                        {#each allSizes as size}
+                        {#each allSizes as size (size)}
                           <tr class="border-t border-[color:#81A9BB]/20">
                             <td class="p-2">{size} person{size === 1 ? '' : 's'}</td>
-                            {#each variations as v}
+                            {#each variations as v (v.bedrooms ?? v.amiPercent ?? v)}
                               {@const limitEntry = getLimitForSize(v, size)}
-                              <td class="text-right p-2">{limitEntry ? formatIncomeLimit(limitEntry.limit) : 'N/A'}</td>
+                              <td class="text-right p-2"
+                                >{limitEntry ? formatIncomeLimit(limitEntry.limit) : 'N/A'}</td
+                              >
                             {/each}
                           </tr>
                         {/each}
@@ -271,12 +315,15 @@
                   </div>
                 </div>
               {:else}
-                {#each variations as v}
+                {#each variations as v (v.bedrooms ?? v.amiPercent ?? v)}
                   {#if v.incomeLimits?.limits?.length > 0}
                     <div class="mt-4">
                       <p class="font-semibold text-sm mb-2">
                         {v.bedrooms == null ? 'All bedroom types' : v.bedrooms + ' bedroom(s)'}
-                        {#if v.amiPercent != null}({v.amiPercent}% AMI){/if} — income limits ({v.incomeLimits?.year || year || 'Current year'}):
+                        {#if v.amiPercent != null}({v.amiPercent}% AMI){/if} — income limits ({v
+                          .incomeLimits?.year ||
+                          year ||
+                          'Current year'}):
                       </p>
                       <div class="overflow-x-auto">
                         <table class="w-full text-sm border border-[color:#81A9BB]/30">
@@ -287,9 +334,13 @@
                             </tr>
                           </thead>
                           <tbody>
-                            {#each v.incomeLimits.limits as limit}
+                            {#each v.incomeLimits.limits as limit (limit.householdSize)}
                               <tr class="border-t border-[color:#81A9BB]/20">
-                                <td class="p-2">{limit.householdSize} person{limit.householdSize === 1 ? '' : 's'}</td>
+                                <td class="p-2"
+                                  >{limit.householdSize} person{limit.householdSize === 1
+                                    ? ''
+                                    : 's'}</td
+                                >
                                 <td class="text-right p-2">{formatIncomeLimit(limit.limit)}</td>
                               </tr>
                             {/each}
@@ -302,11 +353,15 @@
               {/if}
 
               <!-- Optional: max rent per variation -->
-              {#each variations as v}
+              {#each variations as v (v.bedrooms ?? v.amiPercent ?? v)}
                 {#if v.currentMaxRent != null}
                   <p class="text-sm mt-2">
-                    {v.bedrooms == null ? 'Max rent' : v.bedrooms + ' BR max rent'}: {formatCurrency(v.currentMaxRent)}
-                    {#if v.rentType}<span class="text-[color:#151028]/70"> ({v.rentType})</span>{/if}
+                    {v.bedrooms == null ? 'Max rent' : v.bedrooms + ' BR max rent'}: {formatCurrency(
+                      v.currentMaxRent
+                    )}
+                    {#if v.rentType}<span class="text-[color:#151028]/70">
+                        ({v.rentType})</span
+                      >{/if}
                   </p>
                 {/if}
               {/each}
@@ -335,11 +390,16 @@
             Ready to Apply?
           </h2>
           <p class="text-[color:#D8E8EF]/90 text-sm md:text-base">
-            Check available units and contact leasing to learn about eligibility and waitlist procedures.
+            Check available units and contact leasing to learn about eligibility and waitlist
+            procedures.
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center mt-4">
-            <a href={ROUTES.AVAILABILITY} class="cta-btn-search px-8 py-3 tracking-[0.18em]">View Listings</a>
-            <a href={ROUTES.CONTACT_US} class="cta-btn-tour px-8 py-3 tracking-[0.18em]">{copy.affordable_cta_text || 'Contact Us'}</a>
+            <a href={ROUTES.AVAILABILITY} class="cta-btn-search px-8 py-3 tracking-[0.18em]"
+              >View Listings</a
+            >
+            <a href={ROUTES.CONTACT_US} class="cta-btn-tour px-8 py-3 tracking-[0.18em]"
+              >{copy.affordable_cta_text || 'Contact Us'}</a
+            >
           </div>
         </div>
       </ScrollAnimation>

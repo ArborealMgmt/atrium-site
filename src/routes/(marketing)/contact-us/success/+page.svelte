@@ -27,18 +27,15 @@
           class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6"
         >
           <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M5 13l4 4L19 7"
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"
             ></path>
           </svg>
         </div>
 
         <h1 class="text-2xl md:text-3xl font-bold text-atrium-navy mb-4">Thank you!</h1>
         <p class="text-atrium-navy/90 mb-6">
-          Your message has been sent. The Atrium Court leasing team will review it and get back to you soon.
+          Your message has been sent. The Atrium Court leasing team will review it and get back to
+          you soon.
         </p>
 
         {#if skippedStep2}
@@ -52,10 +49,7 @@
         {/if}
 
         <div class="space-y-4">
-          <a
-            href={ROUTES.HOME}
-            class="block w-full px-6 py-3 btn-atrium-primary text-center"
-          >
+          <a href={ROUTES.HOME} class="block w-full px-6 py-3 btn-atrium-primary text-center">
             Back to home
           </a>
           <a

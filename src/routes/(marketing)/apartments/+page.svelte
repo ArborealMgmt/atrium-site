@@ -11,7 +11,7 @@
     { id: 'B5', name: '1 Bedroom' },
     { id: 'C2', name: '1 Bedroom' },
     { id: 'E2', name: '1 Bedroom' },
-    { id: 'G2', name: '1 Bedroom' }
+    { id: 'G2', name: '1 Bedroom' },
   ];
 </script>
 
@@ -53,26 +53,55 @@
       <h2 class="text-2xl md:text-3xl tracking-[0.18em] text-[color:#81A9BB] text-center mb-6">
         New Studio and 1-Bedroom Apartments
       </h2>
-      <p class="text-center text-[color:#151028] text-sm md:text-base max-w-[82%] mx-auto tracking-[0.06em] mb-10">
-        Our new studio and 1-bedroom apartments at Atrium Court are all about maximizing comfort and convenience. We've created <b>spacious, light-filled interiors</b> that feel open and inviting, even within a compact, efficient design. With smart <b>open floor plans</b> and streamlined layouts, each apartment is the perfect blend of modern style and everyday function.
+      <p
+        class="text-center text-[color:#151028] text-sm md:text-base max-w-[82%] mx-auto tracking-[0.06em] mb-10"
+      >
+        Our new studio and 1-bedroom apartments at Atrium Court are all about maximizing comfort and
+        convenience. We've created <b>spacious, light-filled interiors</b> that feel open and
+        inviting, even within a compact, efficient design. With smart <b>open floor plans</b> and streamlined
+        layouts, each apartment is the perfect blend of modern style and everyday function.
       </p>
     </ScrollAnimation>
     <ScrollAnimation type="fade-slide-up" duration={800} delay={100}>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 max-w-5xl mx-auto">
         <div class="flex flex-col items-center text-center">
-          <img src="/images/wood-style-floor.png" alt="Wood-style flooring" class="w-28 h-28 object-contain mb-4" />
-          <h3 class="uppercase tracking-[0.18em] text-[color:#81A9BB] text-lg font-semibold mb-2">Wood-Style Flooring</h3>
-          <p class="text-sm text-[color:#151028]">The beauty of a light-oak hardwood-look adds warmth and modern style.</p>
+          <img
+            src="/images/wood-style-floor.png"
+            alt="Wood-style flooring"
+            class="w-28 h-28 object-contain mb-4"
+          />
+          <h3 class="uppercase tracking-[0.18em] text-[color:#81A9BB] text-lg font-semibold mb-2">
+            Wood-Style Flooring
+          </h3>
+          <p class="text-sm text-[color:#151028]">
+            The beauty of a light-oak hardwood-look adds warmth and modern style.
+          </p>
         </div>
         <div class="flex flex-col items-center text-center">
-          <img src="/images/quartz-counter.png" alt="Quartz countertops" class="w-28 h-28 object-contain mb-4" />
-          <h3 class="uppercase tracking-[0.18em] text-[color:#81A9BB] text-lg font-semibold mb-2">Quartz Countertops</h3>
-          <p class="text-sm text-[color:#151028]">Elevate your cooking experience with stylish stainless finishes & quartz countertops.</p>
+          <img
+            src="/images/quartz-counter.png"
+            alt="Quartz countertops"
+            class="w-28 h-28 object-contain mb-4"
+          />
+          <h3 class="uppercase tracking-[0.18em] text-[color:#81A9BB] text-lg font-semibold mb-2">
+            Quartz Countertops
+          </h3>
+          <p class="text-sm text-[color:#151028]">
+            Elevate your cooking experience with stylish stainless finishes & quartz countertops.
+          </p>
         </div>
         <div class="flex flex-col items-center text-center">
-          <img src="/images/natural-light.png" alt="Natural light" class="w-28 h-28 object-contain mb-4" />
-          <h3 class="uppercase tracking-[0.18em] text-[color:#81A9BB] text-lg font-semibold mb-2">Natural Light</h3>
-          <p class="text-sm text-[color:#151028]">Thrive with floor-to-ceiling windows, private balconies, and urban views.</p>
+          <img
+            src="/images/natural-light.png"
+            alt="Natural light"
+            class="w-28 h-28 object-contain mb-4"
+          />
+          <h3 class="uppercase tracking-[0.18em] text-[color:#81A9BB] text-lg font-semibold mb-2">
+            Natural Light
+          </h3>
+          <p class="text-sm text-[color:#151028]">
+            Thrive with floor-to-ceiling windows, private balconies, and urban views.
+          </p>
         </div>
       </div>
     </ScrollAnimation>
@@ -124,7 +153,7 @@
       </h2>
       <div class="overflow-x-auto pb-4">
         <div class="flex gap-6 justify-center min-w-max px-2">
-          {#each FLOOR_PLANS as plan}
+          {#each FLOOR_PLANS as plan (plan.id)}
             {@const isRotated = plan.id === 'C2' || plan.id === 'G2'}
             <div class="flex-shrink-0 w-[280px] md:w-[320px]">
               <p class="text-[color:#D8E8EF] font-semibold tracking-[0.1em] text-center mb-3">
@@ -150,7 +179,10 @@
         </div>
       </div>
       <p class="text-center text-[color:#D8E8EF] text-sm mt-6">
-        View floor plan details and current availability on our <a href={ROUTES.AVAILABILITY} class="underline font-semibold">Availability</a> page.
+        View floor plan details and current availability on our <a
+          href={ROUTES.AVAILABILITY}
+          class="underline font-semibold">Availability</a
+        > page.
       </p>
     </ScrollAnimation>
   </div>
@@ -204,8 +236,13 @@
             Live Othello Village Life.
           </h2>
           <div class="flex flex-col sm:flex-row gap-4 justify-center mt-4">
-            <a href={ROUTES.AVAILABILITY} class="cta-btn-search px-8 py-3 tracking-[0.18em]">Search Availability</a>
-            <a href="mailto:leasing@arboreal.management" class="cta-btn-tour px-8 py-3 tracking-[0.18em]">Schedule a Tour</a>
+            <a href={ROUTES.AVAILABILITY} class="cta-btn-search px-8 py-3 tracking-[0.18em]"
+              >Search Availability</a
+            >
+            <a
+              href="mailto:leasing@arboreal.management"
+              class="cta-btn-tour px-8 py-3 tracking-[0.18em]">Schedule a Tour</a
+            >
           </div>
         </div>
       </ScrollAnimation>

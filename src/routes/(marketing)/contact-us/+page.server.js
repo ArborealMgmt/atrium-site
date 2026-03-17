@@ -54,7 +54,9 @@ export const actions = {
     } catch (err) {
       if (err?.status === 303 && err?.location) throw err;
       return fail(500, {
-        errors: [err?.message ?? 'Something went wrong. Please try again or contact us by phone or email.'],
+        errors: [
+          err?.message ?? 'Something went wrong. Please try again or contact us by phone or email.',
+        ],
         ...leadData,
       });
     }

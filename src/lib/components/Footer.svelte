@@ -1,6 +1,4 @@
 <script>
-  import { page } from '$app/stores';
-
   import { track } from '$lib/analytics';
   import { ROUTES } from '$lib/config/routes.js';
 
@@ -8,9 +6,6 @@
   const email = 'leasing@arboreal.management';
   const phone = '(206) 222-7549';
   const address = '7324 Martin Luther King Jr Way S, Seattle WA 98118';
-
-  // Check if we're on the homepage
-  const isHomepage = $derived($page.url.pathname === '/');
 
   let logoError = $state(false);
 </script>
@@ -29,7 +24,9 @@
           data-sveltekit-preload-data="hover"
         >
           {#if logoError}
-            <span class="text-2xl md:text-3xl font-bold text-atrium-navy tracking-wide">Atrium Court</span>
+            <span class="text-2xl md:text-3xl font-bold text-atrium-navy tracking-wide"
+              >Atrium Court</span
+            >
           {:else}
             <img
               src="/images/Atrium-Court-Logo.png?v=1"

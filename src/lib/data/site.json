@@ -1,9 +1,9 @@
 {
   "site": {
-  "id": 81,
-  "propertyId": 234,
-  "domain": "atriumcourt.com",
-  "isPublished": true
+    "id": 81,
+    "propertyId": 234,
+    "domain": "atriumcourt.com",
+    "isPublished": true
   },
   "copy": {
     "affordable_cta_text": "See If You Qualify",
