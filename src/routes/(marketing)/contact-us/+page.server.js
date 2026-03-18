@@ -17,7 +17,7 @@ export async function load({ url }) {
 
 /** @type {import('./$types').Actions} */
 export const actions = {
-  default: async ({ request, url }) => {
+  send: async ({ request, url }) => {
     const formData = await request.formData();
     const firstName = (formData.get('firstName') ?? '').toString().trim();
     const lastName = (formData.get('lastName') ?? '').toString().trim();
