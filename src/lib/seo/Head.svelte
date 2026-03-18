@@ -23,7 +23,7 @@
     'Property Site';
   const fullTitle = `${siteName} | ${pageTitle}`;
 
-  const canonicalUrl = `${protocol}://${host}${path}`;
+  const canonicalUrl = host ? `${protocol}://${host}${path}` : '';
 </script>
 
 <svelte:head>
