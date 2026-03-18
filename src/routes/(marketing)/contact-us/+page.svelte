@@ -50,7 +50,7 @@
             class="bg-white rounded-2xl shadow-[0_8px_30px_rgba(21,16,40,0.08)] border border-atrium-navy/5 overflow-hidden"
           >
             <div class="p-6 md:p-8 lg:p-10">
-              <form method="POST" action="?/default" class="space-y-6">
+              <form method="POST" action="?/send" class="space-y-6">
                 {#if unitId}
                   <input type="hidden" name="unitId" value={unitId} />
                 {/if}
