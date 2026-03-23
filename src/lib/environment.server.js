@@ -16,5 +16,5 @@ export function resolveEnvironmentFromHost(host) {
     return 'development';
   }
 
-  return process.env.NODE_ENV;
+  return typeof process !== 'undefined' ? process.env.NODE_ENV : 'development';
 }
