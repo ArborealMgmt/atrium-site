@@ -5,6 +5,7 @@ node_modules
 # build
 .build
 .svelte-kit
+.wrangler
 build
 .vercel
 .output
