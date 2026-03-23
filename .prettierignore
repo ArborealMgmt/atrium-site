@@ -4,4 +4,5 @@ doc/
 # Build output
 build/
 node_modules/
+.wrangler/
 

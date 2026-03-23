@@ -11,7 +11,7 @@ import { env as PRIVATE_ENV } from '$env/dynamic/private';
 function getApiBaseUrl() {
   return (
     PRIVATE_ENV?.MAYNARD_API_BASE_URL ||
-    process.env?.MAYNARD_API_BASE_URL ||
+    (typeof process !== 'undefined' && process.env?.MAYNARD_API_BASE_URL) ||
     'https://maynardapp.azurewebsites.net'
   );
 }
