@@ -43,6 +43,45 @@
     form?.datetime ?? (selectedSlot ? slotDatetime(selectedSlot) : '')
   );
 
+  /**
+   * Maynard sends HH:mm or HH:mm:ss — show as 12-hour for the UI only.
+   * @param {string | null | undefined} timeStr
+   * @returns {string}
+   */
+  function formatTime12h(timeStr) {
+    if (timeStr == null || String(timeStr).trim() === '') return '—';
+    const parts = String(timeStr).trim().split(':');
+    const h = parseInt(parts[0], 10);
+    const m = parseInt(parts[1] ?? '0', 10);
+    if (Number.isNaN(h) || Number.isNaN(m)) return String(timeStr);
+    const period = h >= 12 ? 'PM' : 'AM';
+    const hour12 = h % 12 === 0 ? 12 : h % 12;
+    return `${hour12}:${m.toString().padStart(2, '0')} ${period}`;
+  }
+
+  /** @param {string} isoLocal datetime sent to API, e.g. 2025-03-15T14:30:00 */
+  function formatSelectedTimeForDisplay(isoLocal) {
+    if (!isoLocal) return '';
+    const d = new Date(isoLocal);
+    if (Number.isNaN(d.getTime())) {
+      const [datePart, rest] = isoLocal.split('T');
+      const hhmm = rest?.slice(0, 5) ?? '';
+      return `${formatDateHeading(datePart)} at ${formatTime12h(hhmm)}`;
+    }
+    const dateLine = d.toLocaleDateString('en-US', {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    });
+    const timeLine = d.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    });
+    return `${dateLine} at ${timeLine}`;
+  }
+
   /** @param {any} slot */
   function staffLabel(slot) {
     const n = slot.assignedStaff?.name ?? slot.assignedStaffName;
@@ -159,7 +198,7 @@
           {#if hiddenDatetime}
             <p class="text-sm text-atrium-navy/80 mb-6">
               <span class="font-semibold text-atrium-navy">Selected time:</span>
-              {hiddenDatetime.replace('T', ' ')}
+              {formatSelectedTimeForDisplay(hiddenDatetime)}
             </p>
           {/if}
 
@@ -299,7 +338,7 @@
                       ? 'border-gray-200 text-atrium-navy/50 bg-gray-50'
                       : 'border-atrium-navy/15 text-atrium-navy bg-white hover:border-[#0099e5] hover:text-[#0099e5] shadow-sm'}"
                   >
-                    {slot.startTime ?? '—'}
+                    {formatTime12h(slot.startTime)}
                     {#if staffLabel(slot)}
                       <span class="block text-xs font-normal text-atrium-navy/70 mt-0.5">
                         {staffLabel(slot)}
