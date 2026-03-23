@@ -3,7 +3,7 @@
   import Header from '$lib/components/Header.svelte';
   import ScrollAnimation from '$lib/components/ScrollAnimation.svelte';
   import * as Dialog from '$lib/components/ui/dialog';
-  import { ROUTES } from '$lib/config/routes.js';
+  import { ROUTES, scheduleShowingUrl } from '$lib/config/routes.js';
   import Head from '$lib/seo/Head.svelte';
 
   /** @type {any} */
@@ -141,12 +141,11 @@
     return parts.join(' ');
   }
 
-  /** Schedule Tour URL (contact with tour param; no /schedule-showing in repo). */
   /** @param {any} listing */
   function scheduleTourUrl(listing) {
     const id = listing.id ?? listing.unitId;
-    const name = listing.unitName ?? id;
-    return `${ROUTES.CONTACT_US}?tour=${encodeURIComponent(name)}`;
+    if (!id) return ROUTES.CONTACT_US;
+    return scheduleShowingUrl(id);
   }
 </script>
 

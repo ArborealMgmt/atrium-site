@@ -4,6 +4,7 @@
 
   import { track } from '$lib/analytics';
   import { fetchListings } from '$lib/api/listings.js';
+  import { scheduleShowingUrl } from '$lib/config/routes.js';
 
   let { listings: propsListings = null, contactUrl = '' } = $props();
 
@@ -295,7 +296,21 @@
                       Apply Now
                     </a>
                   {/if}
-                  {#if contactUrl}
+                  {#if listing.id || listing.unitId}
+                    <a
+                      href={scheduleShowingUrl(listing.id || listing.unitId)}
+                      class="property-schedule-button"
+                      onclick={e => {
+                        e.stopPropagation();
+                        track('ScheduleTour', {
+                          source: 'listings-component',
+                          unit_id: listing.id || listing.unitId,
+                        });
+                      }}
+                    >
+                      Schedule Tour
+                    </a>
+                  {:else if contactUrl}
                     <a
                       href="{contactUrl}?tour={encodeURIComponent(
                         listing.unitName || listing.id || listing.unitId
