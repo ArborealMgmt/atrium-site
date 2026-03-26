@@ -252,6 +252,9 @@
               {@const applicationUrl = listing.applicationURL ?? listing.applicationUrl}
               {@const youtubeUrl = listing.youtubeUrl}
               {@const incomeRestricted = isAffordableListing(listing)}
+              {@const incomeLimitsForCard = incomeRestricted
+                ? getIncomeLimitsForListing(listing)
+                : null}
               {@const tourUrl = scheduleTourUrl(listing)}
               <div
                 class="h-[350px] rounded-lg overflow-hidden shadow-md bg-gray-200 cursor-pointer hover:shadow-lg transition-shadow"
@@ -307,6 +310,23 @@
                       {#if bedsSqft}
                         <p class="text-sm opacity-95">{bedsSqft}</p>
                       {/if}
+                      {#if incomeRestricted && incomeLimitsForCard?.limits?.length}
+                        <div class="mt-1.5 text-[11px] leading-snug opacity-90">
+                          <span class="font-semibold">Income limits: </span>
+                          {#each incomeLimitsForCard.limits.slice(0, 4) as lim (lim.householdSize)}
+                            <span class="mr-2"
+                              >{lim.householdSize}p&nbsp;{formatIncomeLimit(lim.limit)}</span
+                            >
+                          {/each}
+                          {#if (incomeLimitsForCard.limits.length ?? 0) > 4}
+                            <span>…</span>
+                          {/if}
+                        </div>
+                      {:else if incomeRestricted && listing.affordableHousingProgramName}
+                        <p class="mt-1.5 text-[11px] opacity-90">
+                          {listing.affordableHousingProgramName}
+                        </p>
+                      {/if}
                       <div class="flex flex-wrap gap-2 mt-3 pointer-events-auto">
                         {#if applicationUrl}
                           <a
@@ -333,6 +353,28 @@
                     <p class="text-sm mt-1">{rent}</p>
                     {#if bedsSqft}
                       <p class="text-sm mt-0.5">{bedsSqft}</p>
+                    {/if}
+                    {#if incomeRestricted && incomeLimitsForCard?.limits?.length}
+                      <div class="mt-3 text-xs text-atrium-navy/80 w-full">
+                        <p class="font-semibold text-atrium-navy mb-1">Income limits:</p>
+                        <div class="grid grid-cols-2 gap-x-3 gap-y-0.5 text-left">
+                          {#each incomeLimitsForCard.limits as lim (lim.householdSize)}
+                            <span
+                              >{lim.householdSize} person{lim.householdSize === 1 ? '' : 's'}:</span
+                            >
+                            <span class="font-medium">{formatIncomeLimit(lim.limit)}</span>
+                          {/each}
+                        </div>
+                        {#if incomeLimitsForCard.year}
+                          <p class="text-[10px] text-atrium-navy/50 mt-1">
+                            {incomeLimitsForCard.year} limits
+                          </p>
+                        {/if}
+                      </div>
+                    {:else if incomeRestricted && listing.affordableHousingProgramName}
+                      <p class="mt-2 text-xs text-atrium-navy/70">
+                        {listing.affordableHousingProgramName}
+                      </p>
                     {/if}
                     <div class="flex flex-wrap gap-2 mt-4 justify-center">
                       {#if applicationUrl}
