@@ -6,12 +6,12 @@
   import Head from '$lib/seo/Head.svelte';
 
   const FLOOR_PLANS = [
-    { id: 'A4', name: '1 Bedroom' },
-    { id: 'B3', name: '1 Bedroom' },
-    { id: 'B5', name: '1 Bedroom' },
-    { id: 'C2', name: '1 Bedroom' },
-    { id: 'E2', name: '1 Bedroom' },
-    { id: 'G2', name: '1 Bedroom' },
+    { id: 'B5', name: '1 Bedroom', src: '/images/floor-plans/unit-b5.png' },
+    { id: 'B6', name: '1 Bedroom', src: '/images/floor-plans/unit-b6.png' },
+    { id: 'B2', name: '1 Bedroom', src: '/images/floor-plans/unit-b2.png' },
+    { id: 'A3', name: '1 Bedroom', src: '/images/floor-plans/unit-a3.png' },
+    { id: 'J2', name: '1 Bedroom', src: '/images/floor-plans/unit-j2.png' },
+    { id: 'C2', name: '1 Bedroom', src: '/images/floor-plans/unit-c2.png' },
   ];
 </script>
 
@@ -154,25 +154,28 @@
       <div class="overflow-x-auto pb-4">
         <div class="flex gap-6 justify-center min-w-max px-2">
           {#each FLOOR_PLANS as plan (plan.id)}
-            {@const isRotated = plan.id === 'C2' || plan.id === 'G2'}
+            {@const rotateFloorPlan = plan.id === 'J2' || plan.id === 'C2'}
             <div class="flex-shrink-0 w-[280px] md:w-[320px]">
-              <p class="text-[color:#D8E8EF] font-semibold tracking-[0.1em] text-center mb-3">
+              <p class="text-[color:#D8E8EF] font-semibold tracking-[0.1em] text-center mb-1">
+                Unit {plan.id}
+              </p>
+              <p class="text-[color:#D8E8EF]/90 text-sm tracking-[0.08em] text-center mb-3">
                 {plan.name}
               </p>
-              <div class="bg-white/10 rounded-lg overflow-hidden aspect-[8.5/11] relative">
-                {#if isRotated}
-                  <iframe
-                    src="/floorplans/{plan.id}.pdf#toolbar=0"
-                    title={plan.name + ' floor plan'}
-                    class="absolute left-1/2 top-1/2 min-h-[360px] h-[calc(100%*8.5/11)] w-[calc(100%*11/8.5)] -translate-x-1/2 -translate-y-1/2 rotate-90"
-                  ></iframe>
-                {:else}
-                  <iframe
-                    src="/floorplans/{plan.id}.pdf#toolbar=0"
-                    title={plan.name + ' floor plan'}
-                    class="w-full h-full min-h-[360px]"
-                  ></iframe>
-                {/if}
+              <div
+                class="relative flex h-[340px] w-full items-center justify-center overflow-hidden rounded-lg bg-black sm:h-[380px] md:h-[400px]"
+              >
+                <div class="aspect-square w-full max-w-[252px] sm:max-w-[272px] md:max-w-[292px]">
+                  <img
+                    src={plan.src}
+                    alt={`Unit ${plan.id} — ${plan.name.toLowerCase()} — illustrated floor plan`}
+                    class="h-full w-full object-contain {rotateFloorPlan
+                      ? 'rotate-90 scale-[1.14]'
+                      : ''}"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
               </div>
             </div>
           {/each}

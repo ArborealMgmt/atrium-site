@@ -215,7 +215,7 @@
 
         <div
           class="hidden md:block bg-cover bg-center"
-          style:background-image="url('/images/7324FinalInteriorUnitRendering.webp')"
+          style:background-image="url('/images/7324-Martin-Luther-King-Jr-Way-S-20.png')"
         >
           <div class="h-[400px] lg:h-[480px]"></div>
         </div>

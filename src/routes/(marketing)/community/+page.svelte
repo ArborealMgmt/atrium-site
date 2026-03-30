@@ -9,7 +9,7 @@
 <Head
   pageTitle="Community | Atrium Court"
   data={{}}
-  description="Sustainable living at Atrium Court. Community courtyard, local art, ground-floor retail, secure bike storage, and more in Othello."
+  description="Sustainable living at Atrium Court. Community courtyard, local art, Envoy electric car share, ground-floor retail, secure bike storage, and more in Othello."
 />
 
 <Header />
@@ -110,6 +110,47 @@
   </div>
 </section>
 
+<!-- Envoy electric car share -->
+<section class="bg-[color:#151028] py-10 md:py-14" aria-labelledby="envoy-banner-heading">
+  <div class="container mx-auto px-4 md:px-6 lg:px-8 max-w-5xl">
+    <ScrollAnimation type="fade-slide-up" duration={800}>
+      <div
+        class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-10 text-center md:text-left"
+      >
+        <div class="md:flex-1">
+          <p
+            class="uppercase tracking-[0.2em] text-[color:#81A9BB] text-xs md:text-sm font-semibold mb-2"
+          >
+            Resident amenity
+          </p>
+          <h2
+            id="envoy-banner-heading"
+            class="text-2xl md:text-3xl tracking-[0.12em] text-[color:#D8E8EF] mb-3"
+          >
+            Envoy Electric Car Share
+          </h2>
+          <p
+            class="text-sm md:text-base text-[color:#D8E8EF] max-w-2xl mx-auto md:mx-0 tracking-[0.06em]"
+          >
+            Electric vehicles on-site for residents—reserve by the hour when you need a car without
+            the cost of ownership. A simple way to get around beyond the Link.
+          </p>
+        </div>
+        <div class="shrink-0 flex justify-center md:justify-end">
+          <a
+            href="https://www.envoythere.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-block px-8 py-3 text-xs md:text-sm font-bold tracking-[0.18em] border border-[color:#F2A73B] text-[color:#F2A73B] hover:bg-[color:#F2A73B]/10 transition-colors rounded-sm"
+          >
+            Learn about Envoy
+          </a>
+        </div>
+      </div>
+    </ScrollAnimation>
+  </div>
+</section>
+
 <!-- Pattern spacer -->
 <section class="atrium-pattern py-24" aria-hidden="true"></section>
 
@@ -151,6 +192,7 @@
           <li>Community Courtyard</li>
           <li>Local Art</li>
           <li>Lounge Area</li>
+          <li>Envoy Electric Car Share</li>
           <li>Sustainable & Green Features</li>
         </ul>
         <ul class="list-none space-y-2 text-[color:#151028] text-sm md:text-base tracking-[0.06em]">
