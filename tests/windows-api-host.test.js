@@ -4,7 +4,19 @@ import { extname, join } from 'node:path';
 import { test } from 'node:test';
 
 const retiredHost = ['maynardapp', 'azurewebsites.net'].join('.');
-const textExtensions = new Set(['.js', '.json', '.md', '.svelte', '.toml', '.ts', '.yml', '.yaml']);
+const textExtensions = new Set([
+  '',
+  '.cjs',
+  '.js',
+  '.json',
+  '.md',
+  '.mjs',
+  '.svelte',
+  '.toml',
+  '.ts',
+  '.yml',
+  '.yaml',
+]);
 const ignoredDirectories = new Set(['.git', '.svelte-kit', 'build', 'node_modules']);
 
 function collectTextFiles(path) {
