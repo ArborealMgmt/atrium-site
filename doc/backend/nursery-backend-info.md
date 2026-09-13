@@ -4,11 +4,11 @@ This guide documents the API endpoints available for building property microsite
 
 ## Primary Endpoint: Get Published Site Payload
 
-**Domain:**: `https://maynardapp.azurewebsites.net`
+**Domain:**: `https://api.arboreal.app`
 
 **Endpoint:** `GET /api/public/nursery/properties/:propertyId`
 
-So you need to call https://maynardapp.azurewebsites.net/api/public/nursery/properties/:propertyId
+So you need to call https://api.arboreal.app/api/public/nursery/properties/:propertyId
 
 This is your main endpoint. It returns everything needed to render a complete property microsite in a single request.
 

@@ -10,7 +10,7 @@ export const siteConfig = {
   propertyId: 234,
 
   // Backend API
-  maynardApiBaseUrl: 'https://maynardapp.azurewebsites.net',
+  maynardApiBaseUrl: 'https://api.arboreal.app',
 
   // Analytics & Tracking (set to null to disable)
   plausibleProjectId: null, // e.g., 'pa-4umnMul0fjPnL8xuogSsV'

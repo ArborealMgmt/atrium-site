@@ -29,7 +29,7 @@
  *   --help, -h                Show help message
  *
  * Environment Variables:
- *   MAYNARD_API_BASE_URL       API base URL (default: https://maynardapp.azurewebsites.net)
+ *   MAYNARD_API_BASE_URL       API base URL (default: https://api.arboreal.app)
  *
  * Behavior:
  *   - Fetches all properties with sites from /api/nursery/dashboard endpoint
@@ -49,8 +49,7 @@ const __dirname = dirname(__filename);
 const ROOT_DIR = join(__dirname, '../..'); // Go up two levels: local-dev-setup -> scripts -> root
 
 // Get API base URL from environment or use default
-const MAYNARD_API_BASE_URL =
-  process.env.MAYNARD_API_BASE_URL || 'https://maynardapp.azurewebsites.net';
+const MAYNARD_API_BASE_URL = process.env.MAYNARD_API_BASE_URL || 'https://api.arboreal.app';
 
 const DEV_PORT = '4370';
 const PROD_PORT = '4373';

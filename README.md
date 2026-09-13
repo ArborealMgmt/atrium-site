@@ -42,8 +42,8 @@ pnpm deploy
 
 Content is frozen from Maynard CMS (property 234). To update content:
 
-1. Fetch fresh data: `curl https://maynardapp.azurewebsites.net/api/public/nursery/properties/234 | jq . > src/lib/data/site.json`
-2. Fetch compiled theme: `curl https://maynardapp.azurewebsites.net/api/public/nursery/sites/{siteId}/theme/compiled | jq . > src/lib/data/compiled-theme.json`
+1. Fetch fresh data: `curl https://api.arboreal.app/api/public/nursery/properties/234 | jq . > src/lib/data/site.json`
+2. Fetch compiled theme: `curl https://api.arboreal.app/api/public/nursery/sites/{siteId}/theme/compiled | jq . > src/lib/data/compiled-theme.json`
 3. Commit changes
 
 ## Development
