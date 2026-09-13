@@ -4,7 +4,7 @@
  * @returns {Promise<Array>} Array of property listings
  */
 export async function fetchListings(propertyId) {
-  // const response = await fetch(`https://maynardapp.azurewebsites.net/api/public/nursery/properties/${propertyId}/listings`);
+  // const response = await fetch(`https://api.arboreal.app/api/public/nursery/properties/${propertyId}/listings`);
   // return await response.json();
 
   // For now, return mock data

@@ -54,7 +54,7 @@ Fetches the complete site payload from Maynard API.
 **Base URL**:
 
 - From env: `MAYNARD_API_BASE_URL` or `process.env.MAYNARD_API_BASE_URL`
-- Default: `https://maynardapp.azurewebsites.net`
+- Default: `https://api.arboreal.app`
 
 **Response Structure** (from API):
 

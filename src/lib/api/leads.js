@@ -12,7 +12,7 @@ function getMaynardApiBaseUrl() {
   return (
     PRIVATE_ENV?.MAYNARD_API_BASE_URL ||
     (typeof process !== 'undefined' && process.env?.MAYNARD_API_BASE_URL) ||
-    'https://maynardapp.azurewebsites.net'
+    'https://api.arboreal.app'
   );
 }
 
